@@ -2,6 +2,21 @@ const Setting = {
   OffersCount: 5
 } as const;
 
+enum AppRoute {
+  Main = '/',
+  Login = '/login',
+  Favorites = '/favorites',
+  Offer = '/offer/:id'
+}
+
+enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN'
+}
+
 export {
-  Setting
+  Setting,
+  AppRoute,
+  AuthorizationStatus
 };
