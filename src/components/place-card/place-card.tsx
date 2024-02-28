@@ -1,18 +1,31 @@
-function PlaceCard(): JSX.Element {
+import { Link } from 'react-router-dom';
+import { Offer } from '../../types/offers';
+import { calculateRatingWidth, capitalizeWord } from '../../utils';
+
+type OfferProps = {
+  offer: Offer;
+  onMouseEnter: (id: string) => void;
+}
+
+function PlaceCard({ offer, onMouseEnter }: OfferProps): JSX.Element {
+  const premiunElement = <div className="place-card__mark"><span>Premium</span></div>;
+  const isFavorite = (offer.isFavorite) ? 'place-card__bookmark-button--active' : null;
+  const isPremium = (offer.isPremium) ? premiunElement : null;
   return (
     <article className="cities__card place-card">
+      {isPremium}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
-          <img className="place-card__image" src="img/apartment-02.jpg" width="260" height="200" alt="Place image" />
+        <a href="#" onMouseEnter={() => onMouseEnter(offer.id)}>
+          <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image" />
         </a>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;132</b>
+            <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
+          <button className={`place-card__bookmark-button ${isFavorite} button`} type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -21,17 +34,15 @@ function PlaceCard(): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: '80%'
-            }}
-            >
+            <span style={{ width: calculateRatingWidth(offer.rating)}}>
             </span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">Canal View Prinsengracht</a>
+          <Link to={`/offer/${offer.id}`}>{offer.title}</Link>
         </h2>
-        <p className="place-card__type">Apartment</p>
+        <p className="place-card__type">{capitalizeWord(offer.type)}</p>
       </div>
     </article>
   );

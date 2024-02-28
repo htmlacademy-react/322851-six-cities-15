@@ -1,6 +1,19 @@
 import { Helmet } from 'react-helmet-async';
+import { Offers, Offer } from '../../types/offers';
+import { Navigate, useParams } from 'react-router-dom';
 
-function Offer(): JSX.Element {
+type OfferProps = {
+  offers: Offers;
+}
+
+function OfferPage({offers}: OfferProps): JSX.Element {
+  const { offerId } = useParams();
+  const currentOffer = offers.find((offer: Offer) => offer.id === offerId);
+
+  if (!currentOffer) {
+    return <Navigate to="/404" />;
+  }
+
   return (
     <div className="page">
       <Helmet>
@@ -341,4 +354,4 @@ function Offer(): JSX.Element {
   );
 }
 
-export default Offer;
+export default OfferPage;

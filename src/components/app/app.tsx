@@ -3,23 +3,24 @@ import Favorites from '../../pages/favorites/favorites';
 import Login from '../../pages/login/login';
 import Main from '../../pages/main/main-page';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Offer from '../../pages/offer/offer';
+import OfferPage from '../../pages/offer-page/offer-page';
 import PrivateRoute from '../private-route/private-route';
 import Page404 from '../../pages/page-404/page-404';
 import { HelmetProvider } from 'react-helmet-async';
+import { Offers } from '../../types/offers';
 
 type AppProps = {
-  offersCount: number;
+  offers: Offers;
 }
 
-function App({offersCount}: AppProps): JSX.Element {
+function App({offers}: AppProps): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<Main offersCount={offersCount} />}
+            element={<Main offers={offers} />}
           />
           <Route
             path={AppRoute.Login}
@@ -37,7 +38,7 @@ function App({offersCount}: AppProps): JSX.Element {
 
           <Route
             path={AppRoute.Offer}
-            element={<Offer />}
+            element={<OfferPage offers={offers} />}
           />
 
           <Route
