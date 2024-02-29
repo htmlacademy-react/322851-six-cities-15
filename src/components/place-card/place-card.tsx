@@ -10,9 +10,7 @@ type OfferProps = {
 }
 
 function PlaceCard({ offer, classNamePrefix, imageSize}: OfferProps): JSX.Element {
-  const premiunElement = <div className="place-card__mark"><span>Premium</span></div>;
   const isFavorite = (offer.isFavorite) ? 'place-card__bookmark-button--active' : null;
-  const isPremium = (offer.isPremium) ? premiunElement : null;
   const [activeCard, setActiveCard] = useState('');
   const isActive = (activeCard) ? '' : null;
 
@@ -23,7 +21,8 @@ function PlaceCard({ offer, classNamePrefix, imageSize}: OfferProps): JSX.Elemen
 
   return (
     <article className={`${classNamePrefix}__card place-card`}>
-      {isPremium}{isActive}
+      {offer.isPremium && <div className="place-card__mark"><span>Premium</span></div>}
+      {isActive}
       <div className={`${classNamePrefix}__image-wrapper place-card__image-wrapper`}>
         <a href="#" onMouseEnter={() => cardMouseOnHandler(offer.id)}>
           <img className="place-card__image" src={offer.previewImage} width={imageSize.width} height={imageSize.height} alt="Place image" />
