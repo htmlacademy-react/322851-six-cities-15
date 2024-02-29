@@ -15,7 +15,6 @@ function PlaceCard({ offer, classNamePrefix, imageSize}: OfferProps): JSX.Elemen
   const isActive = (activeCard) ? '' : null;
 
   const cardMouseOnHandler = (id: string): void => {
-    console.log(id);
     setActiveCard(id);
   };
 
