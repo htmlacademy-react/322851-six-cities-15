@@ -1,23 +1,25 @@
-import { useState } from 'react';
+import { PLACE_CARD_IMAGE_SIZE, PlaceCardClassNamePrefix } from '../../const';
 import { Offer, Offers } from '../../types/offers';
 import PlaceCard from '../place-card/place-card';
+import React from 'react';
 
 type OffersListProps = {
   offers: Offers;
+  classNamePrefix: PlaceCardClassNamePrefix.Main | PlaceCardClassNamePrefix.Favorites;
 }
 
-function OffersList({offers}: OffersListProps): JSX.Element {
-  const [activeCard, setActiveCard] = useState('');
-
-  const cardMouseOnHandler = (id: string): void => {
-    console.log(id);
-    setActiveCard(id);
-  };
-
+function OffersList({offers, classNamePrefix}: OffersListProps): JSX.Element {
+  const imageSize = (classNamePrefix === PlaceCardClassNamePrefix.Main) ? PLACE_CARD_IMAGE_SIZE.Large : PLACE_CARD_IMAGE_SIZE.Small;
   return (
-    <div className="cities__places-list places__list tabs__content">
-      {offers.map((offer: Offer): JSX.Element => <PlaceCard onMouseEnter={cardMouseOnHandler} key={offer.id} offer={offer} />)}
-    </div>
+    <React.Fragment>
+      {offers.map((offer: Offer): JSX.Element => (
+        <PlaceCard key={offer.id}
+          offer={offer}
+          classNamePrefix={classNamePrefix}
+          imageSize={imageSize}
+        />))}
+    </React.Fragment>
+
   );
 }
 

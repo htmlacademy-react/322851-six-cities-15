@@ -63,7 +63,7 @@ const offers: Offers = [
       'longitude': 2.335499,
       'zoom': 16
     },
-    'isFavorite': false,
+    'isFavorite': true,
     'isPremium': true,
     'rating': 2.7
   },
@@ -74,7 +74,7 @@ const offers: Offers = [
     'price': 226,
     'previewImage': 'img/room.jpg',
     'city': {
-      'name': 'Amsterdam',
+      'name': 'Paris',
       'location': {
         'latitude': 52.35514938496378,
         'longitude': 4.673877537499948,
@@ -85,7 +85,7 @@ const offers: Offers = [
       'longitude': 2.358499,
       'zoom': 16
     },
-    'isFavorite': false,
+    'isFavorite': true,
     'isPremium': false,
     'rating': 4.9
   }
