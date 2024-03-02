@@ -1,4 +1,4 @@
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../consts';
 import Favorites from '../../pages/favorites/favorites';
 import Login from '../../pages/login/login';
 import Main from '../../pages/main/main-page';

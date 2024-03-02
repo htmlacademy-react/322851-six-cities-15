@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { DetailedOffers } from '../../types/offers';
 import { useParams } from 'react-router-dom';
 import Header from '../../components/header/header';
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus } from '../../consts';
 import { calculateRatingWidth, capitalizeWord } from '../../utils';
 import ReviewForm from '../../components/review-form/review-form';
 import Page404 from '../page-404/page-404';

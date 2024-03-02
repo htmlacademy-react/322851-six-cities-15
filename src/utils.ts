@@ -1,4 +1,4 @@
-import { Setting } from './const';
+import { Setting } from './consts';
 
 const calculateRatingWidth = (rating: number): string => `${ Math.round(rating) * 100 / Setting.MaxRating}%`;
 

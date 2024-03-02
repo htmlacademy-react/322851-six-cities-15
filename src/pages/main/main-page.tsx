@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import OffersList from '../../components/offers-list/offers-list';
 import { Offers } from '../../types/offers';
-import { AuthorizationStatus, PlaceCardClassNamePrefix } from '../../const';
+import { AuthorizationStatus, PlaceCardClassNamePrefix } from '../../consts';
 import Header from '../../components/header/header';
 
 type MainProps = {

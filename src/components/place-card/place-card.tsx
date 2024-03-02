@@ -3,13 +3,13 @@ import { Offer } from '../../types/offers';
 import { calculateRatingWidth, capitalizeWord } from '../../utils';
 import { useState } from 'react';
 
-type OfferProps = {
+type PlaceCardProps = {
   offer: Offer;
   classNamePrefix: string;
   imageSize: {width: string; height: string};
 }
 
-function PlaceCard({ offer, classNamePrefix, imageSize}: OfferProps): JSX.Element {
+function PlaceCard({ offer, classNamePrefix, imageSize}: PlaceCardProps): JSX.Element {
   const isFavorite = (offer.isFavorite) ? 'place-card__bookmark-button--active' : null;
   const [activeCard, setActiveCard] = useState('');
   const isActive = (activeCard) ? '' : null;

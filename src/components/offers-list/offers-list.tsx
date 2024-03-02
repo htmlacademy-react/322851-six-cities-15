@@ -1,15 +1,15 @@
-import { PLACE_CARD_IMAGE_SIZE, PlaceCardClassNamePrefix } from '../../const';
+import { PlaceCardImageSize, PlaceCardClassNamePrefix } from '../../consts';
 import { Offer, Offers } from '../../types/offers';
 import PlaceCard from '../place-card/place-card';
 import React from 'react';
 
 type OffersListProps = {
   offers: Offers;
-  classNamePrefix: PlaceCardClassNamePrefix.Main | PlaceCardClassNamePrefix.Favorites;
+  classNamePrefix: PlaceCardClassNamePrefix;
 }
 
 function OffersList({offers, classNamePrefix}: OffersListProps): JSX.Element {
-  const imageSize = (classNamePrefix === PlaceCardClassNamePrefix.Main) ? PLACE_CARD_IMAGE_SIZE.Large : PLACE_CARD_IMAGE_SIZE.Small;
+  const imageSize = (classNamePrefix === PlaceCardClassNamePrefix.Main) ? PlaceCardImageSize.LARGE : PlaceCardImageSize.SMALL;
   return (
     <React.Fragment>
       {offers.map((offer: Offer): JSX.Element => (

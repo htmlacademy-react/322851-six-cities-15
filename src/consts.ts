@@ -8,10 +8,10 @@ enum PlaceCardClassNamePrefix {
   Favorites = 'favorites'
 }
 
-const PLACE_CARD_IMAGE_SIZE = {
-  Small: {'width': '150', 'height': '110'},
-  Large: {'width': '260', 'height': '200'}
-};
+const PlaceCardImageSize = {
+  SMALL: {'width': '150', 'height': '110'},
+  LARGE: {'width': '260', 'height': '200'}
+} as const;
 
 
 enum AppRoute {
@@ -31,6 +31,6 @@ export {
   Setting,
   AppRoute,
   AuthorizationStatus,
-  PLACE_CARD_IMAGE_SIZE,
+  PlaceCardImageSize,
   PlaceCardClassNamePrefix
 };

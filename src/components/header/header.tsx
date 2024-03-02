@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../consts';
 import { DetailedOffers, Offers } from '../../types/offers';
 
 type HeaderProps = {
