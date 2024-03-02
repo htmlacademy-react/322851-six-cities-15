@@ -10,7 +10,7 @@ type PlaceCardProps = {
 }
 
 function PlaceCard({ offer, classNamePrefix, imageSize}: PlaceCardProps): JSX.Element {
-  const isFavorite = (offer.isFavorite) ? 'place-card__bookmark-button--active' : null;
+  const isFavorite = (offer.isFavorite) ? 'place-card__bookmark-button--active' : '';
   const [activeCard, setActiveCard] = useState('');
   const isActive = (activeCard) ? '' : null;
 

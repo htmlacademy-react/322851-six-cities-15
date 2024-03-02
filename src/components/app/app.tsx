@@ -9,45 +9,49 @@ import Page404 from '../../pages/page-404/page-404';
 import { HelmetProvider } from 'react-helmet-async';
 import { Offers } from '../../types/offers';
 import detailedOffers from '../../mocks/detailedOffers';
+import Layout from '../layout/layout';
 
 type AppProps = {
   offers: Offers;
 }
 
 function App({offers}: AppProps): JSX.Element {
+  const favoriteOffersCount = offers.filter((offer) => offer.isFavorite).length;
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
-          <Route
-            path={AppRoute.Main}
-            element={<Main offers={offers} />}
-          />
-          <Route
-            path={AppRoute.Login}
-            element={<Login />}
-          />
+          <Route path={AppRoute.Main} element={<Layout offersCount={favoriteOffersCount} authorizationStatus={AuthorizationStatus.Auth} />}>
+            <Route
+              index element={<Main offers={offers} />}
+            />
 
-          <Route
-            path={AppRoute.Favorites}
-            element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-                <Favorites offers={offers} />
-              </PrivateRoute>
-            }
-          />
+            <Route
+              path={AppRoute.Login}
+              element={<Login />}
+            />
 
-          <Route
-            path={AppRoute.Offer}
-            element={<OfferPage offers={detailedOffers} />}
-          />
+            <Route
+              path={AppRoute.Favorites}
+              element={
+                <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+                  <Favorites offers={offers} />
+                </PrivateRoute>
+              }
+            />
 
-          <Route
-            path='*'
-            element={<Page404 />}
-          />
+            <Route
+              path={AppRoute.Offer}
+              element={<OfferPage offers={detailedOffers} />}
+            />
 
+            <Route
+              path='*'
+              element={<Page404 />}
+            />
+          </Route>
         </Routes>
+
       </BrowserRouter>
     </HelmetProvider>
   );
