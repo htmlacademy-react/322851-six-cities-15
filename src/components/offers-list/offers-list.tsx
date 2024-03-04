@@ -9,7 +9,7 @@ type OffersListProps = {
 }
 
 function OffersList({offers, classNamePrefix}: OffersListProps): JSX.Element {
-  const imageSize = (classNamePrefix === PlaceCardClassNamePrefix.Main) ? PlaceCardImageSize.LARGE : PlaceCardImageSize.SMALL;
+  const imageSize = (classNamePrefix === PlaceCardClassNamePrefix.Favorites) ? PlaceCardImageSize.SMALL : PlaceCardImageSize.LARGE;
   return (
     <React.Fragment>
       {offers.map((offer: Offer): JSX.Element => (

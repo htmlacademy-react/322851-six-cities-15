@@ -1,3 +1,8 @@
+enum DateFormat {
+  ReviewField = 'MMMM YYYY',
+  ReviewValue = 'YYYY-MM-DD'
+}
+
 const Setting = {
   OffersCount: 5,
   MaxRating: 5
@@ -5,7 +10,8 @@ const Setting = {
 
 enum PlaceCardClassNamePrefix {
   Main = 'cities',
-  Favorites = 'favorites'
+  Favorites = 'favorites',
+  Offer = 'near-places'
 }
 
 const PlaceCardImageSize = {
@@ -32,5 +38,6 @@ export {
   AppRoute,
   AuthorizationStatus,
   PlaceCardImageSize,
-  PlaceCardClassNamePrefix
+  PlaceCardClassNamePrefix,
+  DateFormat
 };

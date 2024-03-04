@@ -2,6 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import OffersList from '../../components/offers-list/offers-list';
 import { Offers } from '../../types/offers';
 import { PlaceCardClassNamePrefix } from '../../consts';
+import Map from '../../components/map/map';
 
 
 type MainProps = {
@@ -76,7 +77,7 @@ function Main({offers}: MainProps): JSX.Element {
             </div>
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map"></section>
+            <Map cityLocation={offers[0].city.location} />
           </div>
         </div>
       </div>
