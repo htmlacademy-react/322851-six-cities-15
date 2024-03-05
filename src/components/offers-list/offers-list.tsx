@@ -6,17 +6,22 @@ import PlaceCard from '../place-card/place-card';
 type OffersListProps = {
   offers: Offers;
   classNamePrefix: PlaceCardClassNamePrefix;
-  onActiveCardChange: (id: string | null) => void;
+  onActiveCardChange?: (id: string | null) => void;
 }
 
 function OffersList({offers, classNamePrefix, onActiveCardChange }: OffersListProps): JSX.Element {
   const imageSize = (classNamePrefix === PlaceCardClassNamePrefix.Favorites) ? PlaceCardImageSize.SMALL : PlaceCardImageSize.LARGE;
 
   const placeCardMouseEnterHandler = (id: string) => {
-    onActiveCardChange(id);
+    if (onActiveCardChange) {
+      onActiveCardChange(id);
+    }
   };
   const placeCardMouseLeaveHandler = () => {
-    onActiveCardChange(null);
+    if (onActiveCardChange) {
+      onActiveCardChange(null);
+    }
+
   };
 
 
