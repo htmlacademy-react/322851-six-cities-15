@@ -81,8 +81,8 @@ const offers: Offers = [
         'zoom': 8
       }},
     'location': {
-      'latitude': 48.85761,
-      'longitude': 2.358499,
+      'latitude': 52.3909553943508,
+      'longitude': 4.929309666406198,
       'zoom': 16
     },
     'isFavorite': true,

@@ -9,6 +9,7 @@ import { Reviews } from '../../types/reviews';
 import Map from '../../components/map/map';
 import { PlaceCardClassNamePrefix } from '../../consts';
 import OffersList from '../../components/offers-list/offers-list';
+import { useState } from 'react';
 
 type OfferProps = {
   shortOffers: Offers;
@@ -18,8 +19,12 @@ type OfferProps = {
 
 function OfferPage({shortOffers, detaildeOffers, reviews}: OfferProps): JSX.Element {
   const { offerId } = useParams();
+  const [activeCard, setActiveCard] = useState<null | string>(null);
   const currentOffer = detaildeOffers.find((offer) => offer.id === offerId);
   const isFavorite = (currentOffer?.isFavorite) ? 'offer__bookmark-button--active' : null;
+  const points = shortOffers.slice(1).map((offer) => offer.location);
+  const activeCardChangeHandler = (id: string | null) => setActiveCard(id);
+  const selectedPoint = (activeCard) ? shortOffers.find((offer) => offer.id === activeCard)?.location : null;
 
   if (!currentOffer) {
     return <Page404 />;
@@ -129,14 +134,14 @@ function OfferPage({shortOffers, detaildeOffers, reviews}: OfferProps): JSX.Elem
           </div>
         </div>
         <section className="offer__map map">
-          <Map cityLocation={detaildeOffers[0].city.location} />
+          <Map cityLocation={detaildeOffers[0].city.location} points={points} selectedPoint={selectedPoint} />
         </section>
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           <div className="near-places__list places__list">
-            <OffersList offers={shortOffers.slice(1)} classNamePrefix={PlaceCardClassNamePrefix.Offer} />
+            <OffersList offers={shortOffers.slice(1)} classNamePrefix={PlaceCardClassNamePrefix.Offer} onActiveCardChange={activeCardChangeHandler} />
           </div>
         </section>
       </div>

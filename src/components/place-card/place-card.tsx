@@ -1,29 +1,26 @@
 import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offers';
 import { calculateRatingWidth, capitalizeWord } from '../../utils';
-import { useState } from 'react';
 
 type PlaceCardProps = {
   offer: Offer;
   classNamePrefix: string;
   imageSize: {width: string; height: string};
+  onMouseEnter: (id: string) => void;
+  onMouseLeave: () => void;
 }
 
-function PlaceCard({ offer, classNamePrefix, imageSize}: PlaceCardProps): JSX.Element {
+function PlaceCard({ offer, classNamePrefix, imageSize, onMouseEnter, onMouseLeave }: PlaceCardProps): JSX.Element {
   const isFavorite = (offer.isFavorite) ? 'place-card__bookmark-button--active' : '';
-  const [activeCard, setActiveCard] = useState('');
-  const isActive = (activeCard) ? '' : null;
-
-  const cardMouseOnHandler = (id: string): void => {
-    setActiveCard(id);
-  };
 
   return (
     <article className={`${classNamePrefix}__card place-card`}>
       {offer.isPremium && <div className="place-card__mark"><span>Premium</span></div>}
-      {isActive}
       <div className={`${classNamePrefix}__image-wrapper place-card__image-wrapper`}>
-        <a href="#" onMouseEnter={() => cardMouseOnHandler(offer.id)}>
+        <a href="#" onMouseEnter={() => onMouseEnter(offer.id)} onMouseLeave={() => {
+          onMouseLeave();
+        }}
+        >
           <img className="place-card__image" src={offer.previewImage} width={imageSize.width} height={imageSize.height} alt="Place image" />
         </a>
       </div>

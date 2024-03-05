@@ -1,15 +1,25 @@
+import React from 'react';
 import { PlaceCardImageSize, PlaceCardClassNamePrefix } from '../../consts';
 import { Offer, Offers } from '../../types/offers';
 import PlaceCard from '../place-card/place-card';
-import React from 'react';
 
 type OffersListProps = {
   offers: Offers;
   classNamePrefix: PlaceCardClassNamePrefix;
+  onActiveCardChange: (id: string | null) => void;
 }
 
-function OffersList({offers, classNamePrefix}: OffersListProps): JSX.Element {
+function OffersList({offers, classNamePrefix, onActiveCardChange }: OffersListProps): JSX.Element {
   const imageSize = (classNamePrefix === PlaceCardClassNamePrefix.Favorites) ? PlaceCardImageSize.SMALL : PlaceCardImageSize.LARGE;
+
+  const placeCardMouseEnterHandler = (id: string) => {
+    onActiveCardChange(id);
+  };
+  const placeCardMouseLeaveHandler = () => {
+    onActiveCardChange(null);
+  };
+
+
   return (
     <React.Fragment>
       {offers.map((offer: Offer): JSX.Element => (
@@ -17,6 +27,8 @@ function OffersList({offers, classNamePrefix}: OffersListProps): JSX.Element {
           offer={offer}
           classNamePrefix={classNamePrefix}
           imageSize={imageSize}
+          onMouseEnter={placeCardMouseEnterHandler}
+          onMouseLeave={placeCardMouseLeaveHandler}
         />))}
     </React.Fragment>
 
