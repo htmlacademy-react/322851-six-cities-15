@@ -2,6 +2,8 @@ import { Helmet } from 'react-helmet-async';
 import OffersList from '../../components/offers-list/offers-list';
 import { Offers } from '../../types/offers';
 import { PlaceCardClassNamePrefix } from '../../consts';
+import Map from '../../components/map/map';
+import { useState } from 'react';
 
 
 type MainProps = {
@@ -9,6 +11,14 @@ type MainProps = {
 }
 
 function Main({offers}: MainProps): JSX.Element {
+  const [activeCard, setActiveCard] = useState<null | string>(null);
+
+  const points = offers.map((offer) => offer.location);
+
+  const activeCardChangeHandler = (id: string | null) => setActiveCard(id);
+
+  const selectedPoint = (activeCard) ? offers.find((offer) => offer.id === activeCard)?.location : null;
+
   return (
     <main className="page__main page__main--index">
       <Helmet>
@@ -72,11 +82,11 @@ function Main({offers}: MainProps): JSX.Element {
               </ul>
             </form>
             <div className="cities__places-list places__list tabs__content">
-              <OffersList offers={offers} classNamePrefix={PlaceCardClassNamePrefix.Main} />
+              <OffersList offers={offers} classNamePrefix={PlaceCardClassNamePrefix.Main} onActiveCardChange={activeCardChangeHandler} />
             </div>
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map"></section>
+            <Map cityLocation={offers[0].city.location} points={points} selectedPoint={selectedPoint} />
           </div>
         </div>
       </div>

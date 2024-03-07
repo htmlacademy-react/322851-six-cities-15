@@ -10,6 +10,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Offers } from '../../types/offers';
 import detailedOffers from '../../mocks/detailedOffers';
 import Layout from '../layout/layout';
+import reviews from '../../mocks/reviews';
 
 type AppProps = {
   offers: Offers;
@@ -42,7 +43,7 @@ function App({offers}: AppProps): JSX.Element {
 
             <Route
               path={AppRoute.Offer}
-              element={<OfferPage offers={detailedOffers} />}
+              element={<OfferPage reviews={reviews} detaildeOffers={detailedOffers} shortOffers={offers} />}
             />
 
             <Route

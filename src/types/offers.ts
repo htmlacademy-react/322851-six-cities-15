@@ -11,21 +11,21 @@ export type Host = {
 }
 
 export type City = {
-name: string;
-location: OfferLocation;
+  name: string;
+  location: OfferLocation;
 }
 
 export type Offer = {
-id: string;
-title: string;
-type: string;
-price: number;
-previewImage: string;
-city: City;
-location: OfferLocation;
-isFavorite: boolean;
-isPremium: boolean;
-rating: number;
+  id: string;
+  title: string;
+  type: string;
+  price: number;
+  previewImage: string;
+  city: City;
+  location: OfferLocation;
+  isFavorite: boolean;
+  isPremium: boolean;
+  rating: number;
 }
 
 export type DetailedOffer = Omit<Offer, 'previewImage'> & {

@@ -14,8 +14,8 @@ const offers: Offers = [
         'zoom': 8
       }},
     'location': {
-      'latitude': 52.35514938496378,
-      'longitude': 4.673877537499948,
+      'latitude': 52.3809553943508,
+      'longitude': 4.939309666406198,
       'zoom': 8
     },
     'isFavorite': false,
@@ -37,8 +37,8 @@ const offers: Offers = [
         'zoom': 8
       }},
     'location': {
-      'latitude': 48.858610000000006,
-      'longitude': 2.330499,
+      'latitude': 52.3909553943508,
+      'longitude': 4.85309666406198,
       'zoom': 16
     },
     'isFavorite': true,
@@ -59,8 +59,8 @@ const offers: Offers = [
         'zoom': 8
       }},
     'location': {
-      'latitude': 48.834610000000005,
-      'longitude': 2.335499,
+      'latitude': 52.3609553943508,
+      'longitude': 4.85309666406198,
       'zoom': 16
     },
     'isFavorite': true,
@@ -76,13 +76,13 @@ const offers: Offers = [
     'city': {
       'name': 'Paris',
       'location': {
-        'latitude': 52.35514938496378,
-        'longitude': 4.673877537499948,
+        'latitude': 52.3909553943508,
+        'longitude': 4.929309666406198,
         'zoom': 8
       }},
     'location': {
-      'latitude': 48.85761,
-      'longitude': 2.358499,
+      'latitude': 52.3909553943508,
+      'longitude': 4.929309666406198,
       'zoom': 16
     },
     'isFavorite': true,
@@ -92,3 +92,4 @@ const offers: Offers = [
 ];
 
 export default offers;
+
