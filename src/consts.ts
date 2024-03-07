@@ -1,3 +1,6 @@
+const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+const DEFAULT_CITY = 'Paris';
+
 enum DateFormat {
   ReviewField = 'MMMM YYYY',
   ReviewValue = 'YYYY-MM-DD'
@@ -39,5 +42,7 @@ export {
   AuthorizationStatus,
   PlaceCardImageSize,
   PlaceCardClassNamePrefix,
-  DateFormat
+  DateFormat,
+  CITIES,
+  DEFAULT_CITY
 };
