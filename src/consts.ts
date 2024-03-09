@@ -11,6 +11,13 @@ const Setting = {
   MaxRating: 5
 } as const;
 
+enum SortBy {
+  Popular = 'Popular',
+  PriceUp = 'Price: low to high',
+  PriceDown = 'Price: high to low',
+  Rating = 'Top rated first'
+}
+
 enum PlaceCardClassNamePrefix {
   Main = 'cities',
   Favorites = 'favorites',
@@ -44,5 +51,6 @@ export {
   PlaceCardClassNamePrefix,
   DateFormat,
   CITIES,
-  DEFAULT_CITY
+  DEFAULT_CITY,
+  SortBy
 };
