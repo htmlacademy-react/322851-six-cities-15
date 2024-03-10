@@ -5,6 +5,7 @@ import offers from '../mocks/offers';
 
 const initialState = {
   city: DEFAULT_CITY,
+  initialOffers: offers,
   offers: offers.filter((offer) => offer.city.name === DEFAULT_CITY),
   sortBy: SortBy.Popular
 };
