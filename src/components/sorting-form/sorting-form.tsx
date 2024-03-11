@@ -10,11 +10,14 @@ function SortingForm(): JSX.Element {
   const [ isFormOpened, setFormOpened ] = useState(false);
   const currentSortType = useAppSelector((state) => state.sortBy);
   const initialOffers = useAppSelector((state) => state.initialOffers);
+  const currentCity = useAppSelector((state) => state.city);
+  const filteredOffers = initialOffers.filter((offer) => offer.city.name === currentCity);
   const dispatch = useAppDispatch();
+
   const sortByClickHandler = ({ currentTarget }: React.MouseEvent<HTMLElement>) => {
     dispatch(changeSortBy({sortBy: currentTarget.innerHTML as SortBy}));
     sortOffers(initialOffers, currentTarget.innerHTML as SortBy);
-    dispatch(uploadOffers({offers: sortOffers(initialOffers, currentTarget.innerHTML as SortBy)}));
+    dispatch(uploadOffers({offers: sortOffers(filteredOffers, currentTarget.innerHTML as SortBy)}));
     setFormOpened(!isFormOpened);
   };
 
