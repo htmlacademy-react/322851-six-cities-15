@@ -17,14 +17,14 @@ type AppProps = {
 }
 
 function App({offers}: AppProps): JSX.Element {
-  const favoriteOffersCount = offers.filter((offer) => offer.isFavorite).length;
+  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
-          <Route path={AppRoute.Main} element={<Layout offersCount={favoriteOffersCount} authorizationStatus={AuthorizationStatus.Auth} />}>
+          <Route path={AppRoute.Main} element={<Layout offersCount={favoriteOffers.length} authorizationStatus={AuthorizationStatus.Auth} />}>
             <Route
-              index element={<Main offers={offers} />}
+              index element={<Main />}
             />
 
             <Route
@@ -36,7 +36,7 @@ function App({offers}: AppProps): JSX.Element {
               path={AppRoute.Favorites}
               element={
                 <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-                  <Favorites offers={offers} />
+                  <Favorites offers={favoriteOffers} />
                 </PrivateRoute>
               }
             />

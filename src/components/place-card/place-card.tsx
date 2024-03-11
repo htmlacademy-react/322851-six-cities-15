@@ -3,11 +3,11 @@ import { Offer } from '../../types/offers';
 import { calculateRatingWidth, capitalizeWord } from '../../utils';
 
 type PlaceCardProps = {
-  offer: Offer;
-  classNamePrefix: string;
-  imageSize: {width: string; height: string};
-  onMouseEnter: (id: string) => void;
-  onMouseLeave: () => void;
+    offer: Offer;
+    classNamePrefix: string;
+    imageSize: {width: string; height: string};
+    onMouseEnter: (id: string) => void;
+    onMouseLeave: () => void;
 }
 
 function PlaceCard({ offer, classNamePrefix, imageSize, onMouseEnter, onMouseLeave }: PlaceCardProps): JSX.Element {

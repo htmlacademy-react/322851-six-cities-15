@@ -14,7 +14,6 @@ function ReviewList({reviews}: ReviewListProps): JSX.Element {
         { reviews.map((review) => <ReviewItem key={review.id} review={review} />) }
       </ul>
     </React.Fragment>
-
   );
 }
 

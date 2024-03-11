@@ -32,7 +32,8 @@ function SortingForm(): JSX.Element {
         'places__options--opened': isFormOpened })}
       >
         { Object.entries(SortBy).map(([sortKey, sortValue], index) => (
-          <li key={sortKey}
+          <li
+            key={sortKey}
             className={classNames({
               'places__option': true,
               'places__option--active': currentSortType === sortValue})}

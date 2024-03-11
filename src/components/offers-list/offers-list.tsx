@@ -28,7 +28,8 @@ function OffersList({offers, classNamePrefix, onActiveCardChange }: OffersListPr
   return (
     <React.Fragment>
       {offers.map((offer: Offer): JSX.Element => (
-        <PlaceCard key={offer.id}
+        <PlaceCard
+          key={offer.id}
           offer={offer}
           classNamePrefix={classNamePrefix}
           imageSize={imageSize}

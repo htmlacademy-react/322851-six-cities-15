@@ -22,7 +22,12 @@ function CitiesList(): JSX.Element {
         {
           CITIES.map((city) => (
             <li key={`${city}-tab`} className="locations__item">
-              <a className={classNames({'locations__item-link tabs__item': true, 'tabs__item--active' : city === currentCity})} href="#" data-city={city} onClick={cityTabClickHandler}>
+              <a className={classNames({
+                'locations__item-link tabs__item': true,
+                'tabs__item--active' : city === currentCity})}
+              href="#" data-city={city}
+              onClick={cityTabClickHandler}
+              >
                 <span>{city}</span>
               </a>
             </li>))
