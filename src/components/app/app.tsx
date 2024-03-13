@@ -11,10 +11,15 @@ import { Offers } from '../../types/offers';
 import detailedOffers from '../../mocks/detailedOffers';
 import Layout from '../layout/layout';
 import reviews from '../../mocks/reviews';
+import { store } from '../../store';
+import { uploadOffers } from '../../store/thunk-action';
+
 
 type AppProps = {
   offers: Offers;
 }
+
+store.dispatch(uploadOffers());
 
 function App({offers}: AppProps): JSX.Element {
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);

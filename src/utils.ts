@@ -12,8 +12,7 @@ const capitalizeWord = (word: string): string => {
 
 const parseDate = (date: string, dateFormat: string): string => dayjs(date).format(dateFormat);
 
-const sortOffers = (initialOffers: Offers, sortType: SortBy) => {
-  const offers = [...initialOffers];
+const sortOffers = (offers: Offers, sortType: SortBy) => {
   switch (sortType) {
     case SortBy.Popular:
       break;
@@ -27,7 +26,6 @@ const sortOffers = (initialOffers: Offers, sortType: SortBy) => {
       offers.sort((firstOffer, secondOffer) => secondOffer.rating - firstOffer.rating);
       break;
   }
-  return offers;
 };
 
 export {
