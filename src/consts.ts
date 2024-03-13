@@ -1,3 +1,6 @@
+const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+const DEFAULT_CITY = 'Paris';
+
 enum DateFormat {
   ReviewField = 'MMMM YYYY',
   ReviewValue = 'YYYY-MM-DD'
@@ -7,6 +10,13 @@ const Setting = {
   OffersCount: 5,
   MaxRating: 5
 } as const;
+
+enum SortBy {
+  Popular = 'Popular',
+  PriceUp = 'Price: low to high',
+  PriceDown = 'Price: high to low',
+  Rating = 'Top rated first'
+}
 
 enum PlaceCardClassNamePrefix {
   Main = 'cities',
@@ -39,5 +49,8 @@ export {
   AuthorizationStatus,
   PlaceCardImageSize,
   PlaceCardClassNamePrefix,
-  DateFormat
+  DateFormat,
+  CITIES,
+  DEFAULT_CITY,
+  SortBy
 };
