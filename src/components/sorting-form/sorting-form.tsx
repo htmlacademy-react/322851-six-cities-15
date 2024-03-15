@@ -1,23 +1,17 @@
 import classNames from 'classnames';
 import { SortBy } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks/use-app-dispatch';
-import { changeSortBy, updateOffers } from '../../store/actions';
 import { useState } from 'react';
-import { sortOffers } from '../../utils';
+import { changeSortBy } from '../../store/actions';
 
 
 function SortingForm(): JSX.Element {
   const [ isFormOpened, setFormOpened ] = useState(false);
   const currentSortType = useAppSelector((state) => state.sortBy);
-  const initialOffers = useAppSelector((state) => state.initialOffers);
-  const currentCity = useAppSelector((state) => state.city);
-  const filteredOffers = initialOffers.filter((offer) => offer.city.name === currentCity);
   const dispatch = useAppDispatch();
 
   const sortByClickHandler = ({ currentTarget }: React.MouseEvent<HTMLElement>) => {
     dispatch(changeSortBy({sortBy: currentTarget.innerHTML as SortBy}));
-    sortOffers(initialOffers, currentTarget.innerHTML as SortBy);
-    dispatch(updateOffers({offers: sortOffers(filteredOffers, currentTarget.innerHTML as SortBy)}));
     setFormOpened(!isFormOpened);
   };
 
