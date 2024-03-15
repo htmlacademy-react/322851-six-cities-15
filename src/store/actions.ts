@@ -7,11 +7,13 @@ const changeCity = createAction<{city: string}>('changeCity');
 const changeSortBy = createAction<{sortBy: SortBy}>('changeSortBy');
 const updateOffers = createAction<{offers: Offers}>('uploadOffers');
 const initializeOffers = createAction<{offers: Offers}>('initializeOffers');
+const toggleLoading = createAction('toggleLoading');
 
 
 export {
   changeCity,
   updateOffers,
   changeSortBy,
-  initializeOffers
+  initializeOffers,
+  toggleLoading
 };

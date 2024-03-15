@@ -9,7 +9,6 @@ import EmptyCardsList from '../../components/empty-cards-list/empty-cards-list';
 import SortingForm from '../../components/sorting-form/sorting-form';
 import { sortOffers } from '../../utils';
 
-
 function Main(): JSX.Element {
   const [activeCard, setActiveCard] = useState<null | string>(null);
 

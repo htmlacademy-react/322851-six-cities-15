@@ -40,12 +40,12 @@ function Map({cityLocation, points, selectedPoint}: MapProps): JSX.Element {
 
         marker.setIcon((point !== selectedPoint) ? defaultCustomIcon : currentCustomIcon).addTo(markerLayer);
       });
+      map.setView([cityLocation.latitude, cityLocation.longitude], cityLocation.zoom);
       return () => {
         map.removeLayer(markerLayer);
       };
     }
-
-  }, [map, points, selectedPoint]);
+  }, [map, points, selectedPoint, cityLocation]);
 
   return (
     <div className="map" ref={mapRef} style={{height: mapHeight, width: mapWidth, margin: '0 auto'}}>

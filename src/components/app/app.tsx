@@ -11,23 +11,30 @@ import { Offers } from '../../types/offers';
 import detailedOffers from '../../mocks/detailedOffers';
 import Layout from '../layout/layout';
 import reviews from '../../mocks/reviews';
-import { store } from '../../store';
-import { uploadOffers } from '../../store/thunk-action';
+import { useAppSelector } from '../../hooks/use-app-dispatch';
+import Loader from '../loader/loader';
 
 
 type AppProps = {
   offers: Offers;
 }
 
-store.dispatch(uploadOffers());
-
 function App({offers}: AppProps): JSX.Element {
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+  const isLoading = useAppSelector((state) => state.isLoading);
+
+  if (isLoading) {
+    return (
+      <HelmetProvider>
+        <Loader />
+      </HelmetProvider>
+    );
+  }
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
-          <Route path={AppRoute.Main} element={<Layout offersCount={favoriteOffers.length} authorizationStatus={AuthorizationStatus.Auth} />}>
+          <Route path={AppRoute.Main} element={<Layout />}>
             <Route
               index element={<Main />}
             />
