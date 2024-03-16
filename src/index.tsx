@@ -4,7 +4,7 @@ import App from './components/app/app';
 import offers from './mocks/offers';
 import { Provider } from 'react-redux';
 import { store } from './store';
-import { uploadOffers } from './store/thunk-action';
+import { uploadOffers } from './store/thunk-actions';
 
 store.dispatch(uploadOffers());
 

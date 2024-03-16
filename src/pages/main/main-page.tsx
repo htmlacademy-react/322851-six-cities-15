@@ -7,19 +7,13 @@ import CitiesList from '../../components/cities-list/cities-list';
 import { useAppSelector } from '../../hooks/use-app-dispatch';
 import EmptyCardsList from '../../components/empty-cards-list/empty-cards-list';
 import SortingForm from '../../components/sorting-form/sorting-form';
-import { sortOffers } from '../../utils';
 
 function Main(): JSX.Element {
   const [activeCard, setActiveCard] = useState<null | string>(null);
 
-  const initialOffers = useAppSelector((state) => state.initialOffers);
+  const offers = useAppSelector((state) => state.offers);
 
   const currentCity = useAppSelector((state) => state.city);
-
-  const currentSortType = useAppSelector((state) => state.sortBy);
-
-  const offers = initialOffers.filter((offer) => currentCity === offer.city.name);
-  sortOffers(offers, currentSortType);
 
   const points = offers.map((offer) => offer.location);
 

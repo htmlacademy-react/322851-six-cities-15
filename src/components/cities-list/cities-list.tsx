@@ -12,7 +12,7 @@ function CitiesList(): JSX.Element {
 
   const cityTabClickHandler = ({ currentTarget }: React.MouseEvent<HTMLElement>) => {
     dispatch(changeCity({city: currentTarget.innerText}));
-    dispatch(updateOffers({offers: offers.filter((offer) => offer.city.name === currentTarget.innerText)}));
+    dispatch(updateOffers());
 
   };
 

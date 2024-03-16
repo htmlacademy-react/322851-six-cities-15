@@ -2,6 +2,7 @@ import {createReducer} from '@reduxjs/toolkit';
 import { changeCity, changeSortBy, initializeOffers, toggleLoading, updateOffers } from './actions';
 import { AuthorizationStatus, DEFAULT_CITY, SortBy } from '../consts';
 import offers from '../mocks/offers';
+import { sortAndFilterOffers } from '../utils';
 
 const initialState = {
   city: DEFAULT_CITY,
@@ -17,8 +18,8 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(changeCity, (state, action) => {
       state.city = action.payload.city;
     })
-    .addCase(updateOffers, (state, action) => {
-      state.offers = action.payload.offers;
+    .addCase(updateOffers, (state) => {
+      state.offers = sortAndFilterOffers(state.city, state.sortBy, state.initialOffers);
     })
     .addCase(changeSortBy, (state, action) => {
       state.sortBy = action.payload.sortBy;

@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { SortBy } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks/use-app-dispatch';
 import { useState } from 'react';
-import { changeSortBy } from '../../store/actions';
+import { changeSortBy, updateOffers } from '../../store/actions';
 
 
 function SortingForm(): JSX.Element {
@@ -12,7 +12,8 @@ function SortingForm(): JSX.Element {
 
   const sortByClickHandler = ({ currentTarget }: React.MouseEvent<HTMLElement>) => {
     dispatch(changeSortBy({sortBy: currentTarget.innerHTML as SortBy}));
-    setFormOpened(!isFormOpened);
+    dispatch(updateOffers());
+    setFormOpened(false);
   };
 
   return (

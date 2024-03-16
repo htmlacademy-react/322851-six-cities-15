@@ -12,7 +12,8 @@ const capitalizeWord = (word: string): string => {
 
 const parseDate = (date: string, dateFormat: string): string => dayjs(date).format(dateFormat);
 
-const sortOffers = (offers: Offers, sortType: SortBy) => {
+const sortAndFilterOffers = (city: string, sortType: SortBy, initialOffers: Offers) => {
+  const offers = [...initialOffers].filter((offer) => offer.city.name === city);
   switch (sortType) {
     case SortBy.Popular:
       break;
@@ -26,11 +27,13 @@ const sortOffers = (offers: Offers, sortType: SortBy) => {
       offers.sort((firstOffer, secondOffer) => secondOffer.rating - firstOffer.rating);
       break;
   }
+
+  return offers;
 };
 
 export {
   calculateRatingWidth,
   capitalizeWord,
   parseDate,
-  sortOffers
+  sortAndFilterOffers
 };
