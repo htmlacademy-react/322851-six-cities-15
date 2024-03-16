@@ -1,6 +1,6 @@
 import { CITIES } from '../../consts';
 import offers from '../../mocks/offers';
-import { changeCity, uploadOffers } from '../../store/actions';
+import { changeCity, updateOffers } from '../../store/actions';
 import { useAppDispatch, useAppSelector } from '../../hooks/use-app-dispatch';
 import classNames from 'classnames';
 
@@ -12,7 +12,7 @@ function CitiesList(): JSX.Element {
 
   const cityTabClickHandler = ({ currentTarget }: React.MouseEvent<HTMLElement>) => {
     dispatch(changeCity({city: currentTarget.innerText}));
-    dispatch(uploadOffers({offers: offers.filter((offer) => offer.city.name === currentTarget.innerText)}));
+    dispatch(updateOffers({offers: offers.filter((offer) => offer.city.name === currentTarget.innerText)}));
 
   };
 

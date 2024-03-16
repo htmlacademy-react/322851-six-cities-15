@@ -7,14 +7,19 @@ import CitiesList from '../../components/cities-list/cities-list';
 import { useAppSelector } from '../../hooks/use-app-dispatch';
 import EmptyCardsList from '../../components/empty-cards-list/empty-cards-list';
 import SortingForm from '../../components/sorting-form/sorting-form';
-
+import { sortOffers } from '../../utils';
 
 function Main(): JSX.Element {
   const [activeCard, setActiveCard] = useState<null | string>(null);
 
-  const offers = useAppSelector((state) => state.offers);
+  const initialOffers = useAppSelector((state) => state.initialOffers);
 
   const currentCity = useAppSelector((state) => state.city);
+
+  const currentSortType = useAppSelector((state) => state.sortBy);
+
+  const offers = initialOffers.filter((offer) => currentCity === offer.city.name);
+  sortOffers(offers, currentSortType);
 
   const points = offers.map((offer) => offer.location);
 
@@ -38,7 +43,7 @@ function Main(): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in {currentCity}</b>
               <SortingForm />
               <div className="cities__places-list places__list tabs__content">
                 <OffersList offers={offers} classNamePrefix={PlaceCardClassNamePrefix.Main} onActiveCardChange={activeCardChangeHandler} />

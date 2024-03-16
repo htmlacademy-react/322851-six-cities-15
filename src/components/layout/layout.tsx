@@ -1,17 +1,17 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../consts';
 import classNames from 'classnames';
+import { useAppSelector } from '../../hooks/use-app-dispatch';
 
-type LayoutProps = {
-  offersCount: number;
-  authorizationStatus: AuthorizationStatus;
-}
-
-function Layout({ offersCount, authorizationStatus }: LayoutProps): JSX.Element {
+function Layout(): JSX.Element {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const offers = useAppSelector((state) => state.initialOffers);
+  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
   const pathname = window.location.pathname as AppRoute;
   const navigate = useNavigate();
   const isNotLogin = pathname !== AppRoute.Login;
+
   return (
     <div className={classNames({'page': true, 'page--gray page--main': (pathname === AppRoute.Main), 'page--gray page--login': (pathname === AppRoute.Login)})}>
       <header className="header">
@@ -31,7 +31,7 @@ function Layout({ offersCount, authorizationStatus }: LayoutProps): JSX.Element 
                   <div className="header__avatar-wrapper user__avatar-wrapper">
                   </div>
                   <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  <span className="header__favorite-count">{offersCount}</span>
+                  <span className="header__favorite-count">{favoriteOffers.length}</span>
                 </Link>
               </li>}
                 <li className="header__nav-item">

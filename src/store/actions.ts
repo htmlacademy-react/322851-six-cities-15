@@ -5,11 +5,15 @@ import { SortBy } from '../consts';
 
 const changeCity = createAction<{city: string}>('changeCity');
 const changeSortBy = createAction<{sortBy: SortBy}>('changeSortBy');
-const uploadOffers = createAction<{offers: Offers}>('uploadOffers');
+const updateOffers = createAction<{offers: Offers}>('uploadOffers');
+const initializeOffers = createAction<{offers: Offers}>('initializeOffers');
+const toggleLoading = createAction('toggleLoading');
 
 
 export {
   changeCity,
-  uploadOffers,
-  changeSortBy
+  updateOffers,
+  changeSortBy,
+  initializeOffers,
+  toggleLoading
 };

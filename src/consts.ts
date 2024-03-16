@@ -1,14 +1,21 @@
 const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 const DEFAULT_CITY = 'Paris';
+const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
 
 enum DateFormat {
   ReviewField = 'MMMM YYYY',
   ReviewValue = 'YYYY-MM-DD'
 }
 
+enum ApiRoute {
+  Offers = '/offers'
+}
+
 const Setting = {
   OffersCount: 5,
-  MaxRating: 5
+  MaxRating: 5,
+  BaseUrl: 'https://15.design.htmlacademy.pro/six-cities',
+  ApiTimeout: 5000
 } as const;
 
 enum SortBy {
@@ -52,5 +59,7 @@ export {
   DateFormat,
   CITIES,
   DEFAULT_CITY,
-  SortBy
+  SortBy,
+  AUTH_TOKEN_KEY_NAME,
+  ApiRoute
 };
