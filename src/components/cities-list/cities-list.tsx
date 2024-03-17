@@ -1,5 +1,4 @@
 import { CITIES } from '../../consts';
-import offers from '../../mocks/offers';
 import { changeCity, updateOffers } from '../../store/actions';
 import { useAppDispatch, useAppSelector } from '../../hooks/use-app-dispatch';
 import classNames from 'classnames';
