@@ -1,5 +1,5 @@
 import {createReducer} from '@reduxjs/toolkit';
-import { changeCity, changeSortBy, initializeOffers, toggleLoading, updateOffers } from './actions';
+import { changeCity, changeSortBy, initializeOffers, toggleLoading, updateAuthorization, updateOffers } from './actions';
 import { AuthorizationStatus, DEFAULT_CITY, SortBy } from '../consts';
 import offers from '../mocks/offers';
 import { sortAndFilterOffers } from '../utils';
@@ -29,6 +29,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(toggleLoading, (state) => {
       state.isLoading = !state.isLoading;
+    })
+    .addCase(updateAuthorization, (state,action) => {
+      state.authorizationStatus = action.payload.authorizationStatus;
     });
 });
 

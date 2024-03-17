@@ -8,7 +8,10 @@ enum DateFormat {
 }
 
 enum ApiRoute {
-  Offers = '/offers'
+  Offers = '/offers',
+  Login = '/login',
+  Favorites = '/favorite',
+  Logout = '/logout'
 }
 
 const Setting = {
