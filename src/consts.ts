@@ -1,3 +1,5 @@
+import { StatusCodes } from 'http-status-codes';
+
 const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 const DEFAULT_CITY = 'Paris';
 const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
@@ -13,6 +15,12 @@ enum ApiRoute {
   Favorites = '/favorite',
   Logout = '/logout'
 }
+
+const StatusCodeMapping: Record<number, boolean> = {
+  [StatusCodes.BAD_REQUEST]: true,
+  [StatusCodes.UNAUTHORIZED]: true,
+  [StatusCodes.NOT_FOUND]: true
+};
 
 const Setting = {
   OffersCount: 5,
@@ -64,5 +72,6 @@ export {
   DEFAULT_CITY,
   SortBy,
   AUTH_TOKEN_KEY_NAME,
-  ApiRoute
+  ApiRoute,
+  StatusCodeMapping
 };

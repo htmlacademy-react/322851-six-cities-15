@@ -16,20 +16,20 @@ const uploadOffers = createAsyncThunk<void, undefined, {dispatch: Dispatch; stat
 });
 
 const checkAuthorization = createAsyncThunk<void, undefined, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('checkAuthorization', async (_arg, {dispatch, extra: api}) => {
-  const { status } = await api.get(ApiRoute.Login);
-  if (status === 200) {
+  try {
+    await api.get(ApiRoute.Login);
     dispatch(updateAuthorization({authorizationStatus: AuthorizationStatus.Auth}));
-  } else {
+  } catch {
     dispatch(updateAuthorization({authorizationStatus: AuthorizationStatus.NoAuth}));
   }
 });
 
 const loginUser = createAsyncThunk<void, AuthData, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('loginUser', async ({ email, password }, {dispatch, extra: api}) => {
-  const { status, data: { token } } = await api.post<UserData>(ApiRoute.Login, {email, password});
-  saveToken(token);
-  if (status === 200) {
+  try {
+    const {data: { token } } = await api.post<UserData>(ApiRoute.Login, {email, password});
+    saveToken(token);
     dispatch(updateAuthorization({authorizationStatus: AuthorizationStatus.Auth}));
-  } else {
+  } catch {
     dispatch(updateAuthorization({authorizationStatus: AuthorizationStatus.NoAuth}));
   }
 });

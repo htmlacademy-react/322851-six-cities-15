@@ -3,8 +3,18 @@ import { changeCity, changeSortBy, initializeOffers, toggleLoading, updateAuthor
 import { AuthorizationStatus, DEFAULT_CITY, SortBy } from '../consts';
 import offers from '../mocks/offers';
 import { sortAndFilterOffers } from '../utils';
+import { Offers } from '../types/offers';
 
-const initialState = {
+type InitialState = {
+  city: string;
+  initialOffers: Offers;
+  offers: Offers;
+  sortBy: SortBy;
+  isLoading: boolean;
+  authorizationStatus: AuthorizationStatus;
+};
+
+const initialState: InitialState = {
   city: DEFAULT_CITY,
   initialOffers: offers,
   offers: offers.filter((offer) => offer.city.name === DEFAULT_CITY),
