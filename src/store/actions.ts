@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { Offers } from '../types/offers';
-import { AuthorizationStatus, SortBy } from '../consts';
+import { AppRoute, AuthorizationStatus, SortBy } from '../consts';
 
 
 const changeCity = createAction<{city: string}>('changeCity');
@@ -9,6 +9,7 @@ const updateOffers = createAction('uploadOffers');
 const initializeOffers = createAction<{offers: Offers}>('initializeOffers');
 const toggleLoading = createAction('toggleLoading');
 const updateAuthorization = createAction<{authorizationStatus: AuthorizationStatus}>('updateAuthorization');
+const redirectToRoute = createAction<AppRoute>('redirectToRoute');
 
 export {
   changeCity,
@@ -16,5 +17,6 @@ export {
   changeSortBy,
   initializeOffers,
   toggleLoading,
-  updateAuthorization
+  updateAuthorization,
+  redirectToRoute
 };

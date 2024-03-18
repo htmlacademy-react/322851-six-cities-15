@@ -13,6 +13,8 @@ import Layout from '../layout/layout';
 import reviews from '../../mocks/reviews';
 import { useAppSelector } from '../../hooks/use-app-dispatch';
 import Loader from '../loader/loader';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../browser-history';
 
 
 type AppProps = {
@@ -32,7 +34,7 @@ function App({offers}: AppProps): JSX.Element {
   }
   return (
     <HelmetProvider>
-      <BrowserRouter>
+      <HistoryRouter history={browserHistory}>
         <Routes>
           <Route path={AppRoute.Main} element={<Layout />}>
             <Route
@@ -65,7 +67,7 @@ function App({offers}: AppProps): JSX.Element {
           </Route>
         </Routes>
 
-      </BrowserRouter>
+      </HistoryRouter>
     </HelmetProvider>
   );
 }

@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { Dispatch, State } from '../types/state';
-import { ApiRoute, AuthorizationStatus } from '../consts';
+import { ApiRoute, AppRoute, AuthorizationStatus } from '../consts';
 import { Offers } from '../types/offers';
-import { initializeOffers, toggleLoading, updateAuthorization, updateOffers } from './actions';
+import { initializeOffers, redirectToRoute, toggleLoading, updateAuthorization, updateOffers } from './actions';
 import { dropToken, saveToken } from '../services/token';
 import { AuthData, UserData } from '../types/auth';
 
@@ -29,6 +29,7 @@ const loginUser = createAsyncThunk<void, AuthData, {dispatch: Dispatch; state: S
     const {data: { token } } = await api.post<UserData>(ApiRoute.Login, {email, password});
     saveToken(token);
     dispatch(updateAuthorization({authorizationStatus: AuthorizationStatus.Auth}));
+    dispatch(redirectToRoute(AppRoute.Main));
   } catch {
     dispatch(updateAuthorization({authorizationStatus: AuthorizationStatus.NoAuth}));
   }
@@ -36,7 +37,7 @@ const loginUser = createAsyncThunk<void, AuthData, {dispatch: Dispatch; state: S
 
 const logoutUser = createAsyncThunk<void, undefined, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('logoutUser', async (_arg, {dispatch, extra: api}) => {
   try {
-    await api.get(ApiRoute.Logout);
+    await api.delete(ApiRoute.Logout);
     dropToken();
     dispatch(updateAuthorization({authorizationStatus: AuthorizationStatus.NoAuth}));
   } catch {

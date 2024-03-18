@@ -2,20 +2,16 @@ import { FormEvent, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { loginUser } from '../../store/thunk-actions';
-import { useNavigate } from 'react-router-dom';
-import { AppRoute } from '../../consts';
 
 function Login(): JSX.Element {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const formSubmitHandler = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if (emailRef.current !== null && emailRef.current !== null) {
-      dispatch(loginUser({email: emailRef.current.value, password: emailRef.current.value}));
-      navigate(AppRoute.Main);
+    if (emailRef.current !== null && passwordRef.current !== null) {
+      dispatch(loginUser({email: emailRef.current.value, password: passwordRef.current.value}));
     }
   };
 
