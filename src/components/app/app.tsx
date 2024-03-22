@@ -1,8 +1,8 @@
-import { AppRoute, AuthorizationStatus } from '../../consts';
+import { AppRoute } from '../../consts';
 import Favorites from '../../pages/favorites/favorites';
 import Login from '../../pages/login/login';
 import Main from '../../pages/main/main-page';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import {Route, Routes } from 'react-router-dom';
 import OfferPage from '../../pages/offer-page/offer-page';
 import PrivateRoute from '../private-route/private-route';
 import Page404 from '../../pages/page-404/page-404';
@@ -22,6 +22,7 @@ type AppProps = {
 }
 
 function App({offers}: AppProps): JSX.Element {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
   const isLoading = useAppSelector((state) => state.isLoading);
 
@@ -49,7 +50,7 @@ function App({offers}: AppProps): JSX.Element {
             <Route
               path={AppRoute.Favorites}
               element={
-                <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+                <PrivateRoute authorizationStatus={authorizationStatus}>
                   <Favorites offers={favoriteOffers} />
                 </PrivateRoute>
               }

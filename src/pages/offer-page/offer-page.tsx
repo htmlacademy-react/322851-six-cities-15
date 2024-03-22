@@ -1,33 +1,42 @@
 import { Helmet } from 'react-helmet-async';
-import { DetailedOffers, Offers } from '../../types/offers';
+import { OfferLocation } from '../../types/offers';
 import { useParams } from 'react-router-dom';
 import { calculateRatingWidth, capitalizeWord } from '../../utils';
 import ReviewForm from '../../components/review-form/review-form';
-import Page404 from '../page-404/page-404';
 import ReviewList from '../../components/review-list/review-list';
-import { Reviews } from '../../types/reviews';
 import Map from '../../components/map/map';
-import { PlaceCardClassNamePrefix } from '../../consts';
+import { AuthorizationStatus, PlaceCardClassNamePrefix } from '../../consts';
 import OffersList from '../../components/offers-list/offers-list';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { uploadNearbyOffers, uploadOfferById } from '../../store/thunk-actions';
+import classNames from 'classnames';
+import { store } from '../../store';
+import Loader from '../../components/loader/loader';
+import { useAppSelector } from '../../hooks/use-app-dispatch';
 
-type OfferProps = {
-  shortOffers: Offers;
-  detaildeOffers: DetailedOffers;
-  reviews: Reviews;
-}
 
-function OfferPage({shortOffers, detaildeOffers, reviews}: OfferProps): JSX.Element {
+function OfferPage(): JSX.Element {
+  const currentOffer = useAppSelector((state) => state.currentOffer);
+  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const [points, setPoints] = useState<null | OfferLocation[]>(null);
   const { offerId } = useParams();
-  const [activeCard, setActiveCard] = useState<null | string>(null);
-  const currentOffer = detaildeOffers.find((offer) => offer.id === offerId);
-  const isFavorite = (currentOffer?.isFavorite) ? 'offer__bookmark-button--active' : null;
-  const points = shortOffers.slice(1).map((offer) => offer.location);
-  const activeCardChangeHandler = (id: string | null) => setActiveCard(id);
-  const selectedPoint = (activeCard) ? shortOffers.find((offer) => offer.id === activeCard)?.location : null;
+  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
-  if (!currentOffer) {
-    return <Page404 />;
+  if (nearbyOffers !== null && points === null && currentOffer?.id === offerId) {
+    setPoints(nearbyOffers.slice(0, 3).map((offer) => offer.location));
+  }
+
+  useEffect(() => {
+    if (offerId && currentOffer?.id !== offerId) {
+      store.dispatch(uploadOfferById(offerId));
+      store.dispatch(uploadNearbyOffers(offerId));
+    }
+  }, [offerId, currentOffer]);
+
+
+  if (!currentOffer || currentOffer.id !== offerId) {
+    return <Loader />;
   }
 
   return (
@@ -68,7 +77,11 @@ function OfferPage({shortOffers, detaildeOffers, reviews}: OfferProps): JSX.Elem
               <h1 className="offer__name">
                 {currentOffer.title}
               </h1>
-              <button className={`offer__bookmark-button ${isFavorite} button`} type="button">
+              <button className={classNames({
+                'offer__bookmark-button button': true,
+                'offer__bookmark-button--active': currentOffer.isFavorite
+              })} type="button"
+              >
                 <svg className="offer__bookmark-icon" width="31" height="33">
                   <use xlinkHref="#icon-bookmark"></use>
                 </svg>
@@ -128,22 +141,25 @@ function OfferPage({shortOffers, detaildeOffers, reviews}: OfferProps): JSX.Elem
               </div>
             </div>
             <section className="offer__reviews reviews">
-              <ReviewList reviews={reviews} />
-              <ReviewForm />
+              {offerId && <ReviewList offerId={offerId} />}
+              {isAuth && <ReviewForm />}
             </section>
           </div>
         </div>
         <section className="offer__map map">
-          <Map cityLocation={detaildeOffers[0].city.location} points={points} selectedPoint={selectedPoint} />
+          {points && <Map cityLocation={currentOffer.city.location} points={points.concat([currentOffer.location])} selectedPoint={currentOffer.location} />}
         </section>
       </section>
       <div className="container">
-        <section className="near-places places">
-          <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <div className="near-places__list places__list">
-            <OffersList offers={shortOffers.slice(1)} classNamePrefix={PlaceCardClassNamePrefix.Offer} onActiveCardChange={activeCardChangeHandler} />
-          </div>
-        </section>
+        {
+          nearbyOffers &&
+          <section className="near-places places">
+            <h2 className="near-places__title">Other places in the neighbourhood</h2>
+            <div className="near-places__list places__list">
+              <OffersList offers={nearbyOffers.slice(0,3)} classNamePrefix={PlaceCardClassNamePrefix.Offer} />
+            </div>
+          </section>
+        }
       </div>
     </main>
   );

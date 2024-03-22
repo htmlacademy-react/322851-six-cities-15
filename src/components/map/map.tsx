@@ -7,8 +7,8 @@ import { useLocation } from 'react-router-dom';
 import { AppRoute } from '../../consts';
 
 type MapProps = {
-  cityLocation: OfferLocation;
-  points: OfferLocation[];
+  cityLocation: null | OfferLocation;
+  points: OfferLocation[] | null;
   selectedPoint: OfferLocation | null | undefined;
 }
 
@@ -33,7 +33,7 @@ function Map({cityLocation, points, selectedPoint}: MapProps): JSX.Element {
   const mapWidth = (pathname as AppRoute === AppRoute.Main) ? '100%' : '1144px';
 
   useEffect(() => {
-    if (map) {
+    if (map && cityLocation && points) {
       const markerLayer = layerGroup().addTo(map);
       points.forEach((point) => {
         const marker = new Marker({lat: point.latitude, lng: point.longitude});

@@ -13,7 +13,8 @@ enum ApiRoute {
   Offers = '/offers',
   Login = '/login',
   Favorites = '/favorite',
-  Logout = '/logout'
+  Logout = '/logout',
+  Comments = '/comments'
 }
 
 const StatusCodeMapping: Record<number, boolean> = {

@@ -1,26 +1,32 @@
 import {createReducer} from '@reduxjs/toolkit';
-import { changeCity, changeSortBy, initializeOffers, toggleLoading, updateAuthorization, updateOffers } from './actions';
+import { changeCity, changeSortBy, initializeOffers, setCurrentOffer, setNearbyOffers, setReviews, toggleLoading, updateAuthorization, updateOffers } from './actions';
 import { AuthorizationStatus, DEFAULT_CITY, SortBy } from '../consts';
-import offers from '../mocks/offers';
 import { sortAndFilterOffers } from '../utils';
-import { Offers } from '../types/offers';
+import { DetailedOffer, Offers } from '../types/offers';
+import { Reviews } from '../types/reviews';
 
 type InitialState = {
   city: string;
-  initialOffers: Offers;
-  offers: Offers;
+  initialOffers: null| Offers;
+  offers: null | Offers;
   sortBy: SortBy;
   isLoading: boolean;
   authorizationStatus: AuthorizationStatus;
+  currentOffer: null | DetailedOffer;
+  nearbyOffers: null | Offers;
+  reviews: null | Reviews;
 };
 
 const initialState: InitialState = {
   city: DEFAULT_CITY,
-  initialOffers: offers,
-  offers: offers.filter((offer) => offer.city.name === DEFAULT_CITY),
+  initialOffers: null,
+  offers: null,
   sortBy: SortBy.Popular,
   isLoading: false,
-  authorizationStatus: AuthorizationStatus.Unknown
+  authorizationStatus: AuthorizationStatus.Unknown,
+  currentOffer: null,
+  nearbyOffers: null,
+  reviews: null
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -29,7 +35,9 @@ const reducer = createReducer(initialState, (builder) => {
       state.city = action.payload.city;
     })
     .addCase(updateOffers, (state) => {
-      state.offers = sortAndFilterOffers(state.city, state.sortBy, state.initialOffers);
+      if (state.initialOffers) {
+        state.offers = sortAndFilterOffers(state.city, state.sortBy, state.initialOffers);
+      }
     })
     .addCase(changeSortBy, (state, action) => {
       state.sortBy = action.payload.sortBy;
@@ -42,6 +50,15 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(updateAuthorization, (state,action) => {
       state.authorizationStatus = action.payload.authorizationStatus;
+    })
+    .addCase(setCurrentOffer, (state,action) => {
+      state.currentOffer = action.payload;
+    })
+    .addCase(setNearbyOffers, (state,action) => {
+      state.nearbyOffers = action.payload;
+    })
+    .addCase(setReviews, (state,action) => {
+      state.reviews = action.payload;
     });
 });
 
