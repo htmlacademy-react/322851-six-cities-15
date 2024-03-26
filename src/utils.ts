@@ -72,10 +72,9 @@ const getRandomSubArray = <T>(arr: T[], count: number) => {
 
 const sortReviewsByDate = (reviews: Reviews | null) => {
   if (reviews !== null && reviews.length > 1) {
-    console.log(reviews);
     const newReviews = [...reviews];
     newReviews.sort((firstReview, secondReview) => dayjs(secondReview.date).valueOf() - dayjs(firstReview.date).valueOf());
-    console.log(newReviews);
+
     return newReviews;
   }
   return reviews;

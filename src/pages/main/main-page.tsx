@@ -7,6 +7,7 @@ import CitiesList from '../../components/cities-list/cities-list';
 import { useAppSelector } from '../../hooks/use-app-dispatch';
 import EmptyCardsList from '../../components/empty-cards-list/empty-cards-list';
 import SortingForm from '../../components/sorting-form/sorting-form';
+import Loader from '../../components/loader/loader';
 
 function Main(): JSX.Element {
   const [activeCard, setActiveCard] = useState<null | string>(null);
@@ -15,11 +16,14 @@ function Main(): JSX.Element {
 
   const currentCity = useAppSelector((state) => state.city);
 
-  const points = offers.map((offer) => offer.location);
-
   const activeCardChangeHandler = (id: string | null) => setActiveCard(id);
 
-  const selectedPoint = (activeCard) ? offers.find((offer) => offer.id === activeCard)?.location : null;
+  const points = (offers) ? offers.map((offer) => offer.location) : null;
+  const selectedPoint = (activeCard) ? offers?.find((offer) => offer.id === activeCard)?.location : null;
+
+  if (!offers) {
+    return <Loader />;
+  }
 
   return (
     <main className="page__main page__main--index">
