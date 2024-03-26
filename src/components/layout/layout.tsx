@@ -7,7 +7,7 @@ import { logoutUser } from '../../store/thunk-actions';
 function Layout(): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const offers = useAppSelector((state) => state.initialOffers);
-  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+  const favoriteOffers = offers?.filter((offer) => offer.isFavorite);
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
   const pathname = window.location.pathname as AppRoute;
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ function Layout(): JSX.Element {
                   <div className="header__avatar-wrapper user__avatar-wrapper">
                   </div>
                   <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  <span className="header__favorite-count">{favoriteOffers.length}</span>
+                  <span className="header__favorite-count">{(favoriteOffers) ? favoriteOffers.length : ''}</span>
                 </Link>
               </li>}
                 <li className="header__nav-item">
