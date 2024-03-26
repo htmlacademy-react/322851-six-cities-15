@@ -1,5 +1,5 @@
 import {createReducer} from '@reduxjs/toolkit';
-import { changeCity, changeSortBy, initializeOffers, setCurrentOffer, setNearbyOffers, setReviews, toggleLoading, updateAuthorization, updateOffers } from './actions';
+import { addNewReview, changeCity, changeSortBy, initializeOffers, setCurrentOffer, setNearbyOffers, setReviews, toggleLoading, updateAuthorization, updateOffers } from './actions';
 import { AuthorizationStatus, DEFAULT_CITY, SortBy } from '../consts';
 import { sortAndFilterOffers } from '../utils';
 import { DetailedOffer, Offers } from '../types/offers';
@@ -59,6 +59,13 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setReviews, (state,action) => {
       state.reviews = action.payload;
+    })
+    .addCase(addNewReview, (state, action) => {
+      if (state.reviews) {
+        state.reviews.push(action.payload);
+      } else {
+        state.reviews = [action.payload];
+      }
     });
 });
 

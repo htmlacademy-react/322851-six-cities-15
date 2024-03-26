@@ -1,6 +1,7 @@
 import { Setting, SortBy } from './consts';
 import dayjs from 'dayjs';
 import { Offers } from './types/offers';
+import { Reviews } from './types/reviews';
 
 const calculateRatingWidth = (rating: number): string => `${ Math.round(rating) * 100 / Setting.MaxRating}%`;
 
@@ -31,9 +32,61 @@ const sortAndFilterOffers = (city: string, sortType: SortBy, initialOffers: Offe
   return offers;
 };
 
+
+const getRandomInteger = (a: number, b: number) => {
+  const lower = Math.ceil(Math.min(a, b));
+  const upper = Math.floor(Math.max(a, b));
+  const result = Math.random() * (upper - lower + 1) + lower;
+  return Math.floor(result);
+};
+
+const generateRandomIndex = (a: number, b: number) => {
+  const indexNumbers: number[] = [];
+  return () => {
+    let currentIndex = getRandomInteger(a, b);
+    if (indexNumbers.length === Math.floor(Math.max(a, b) + 1)) {
+      return '';
+    }
+    while (indexNumbers.includes(currentIndex)) {
+      currentIndex = getRandomInteger(a, b);
+    }
+    indexNumbers.push(currentIndex);
+    return currentIndex;
+  };
+};
+
+const getRandomSubArray = <T>(arr: T[], count: number) => {
+  if (arr.length <= count) {
+    return arr;
+  }
+  const newArray: T[] = [];
+  const indexGenerator = generateRandomIndex(0, arr.length - 1);
+  for (let i = 0; i < count; i++) {
+    const index = indexGenerator();
+    if (index) {
+      newArray.push(arr[index]);
+    }
+  }
+  return newArray;
+};
+
+const sortReviewsByDate = (reviews: Reviews | null) => {
+  if (reviews !== null && reviews.length > 1) {
+    console.log(reviews);
+    const newReviews = [...reviews];
+    newReviews.sort((firstReview, secondReview) => dayjs(secondReview.date).valueOf() - dayjs(firstReview.date).valueOf());
+    console.log(newReviews);
+    return newReviews;
+  }
+  return reviews;
+};
+
+
 export {
   calculateRatingWidth,
   capitalizeWord,
   parseDate,
-  sortAndFilterOffers
+  sortAndFilterOffers,
+  getRandomSubArray,
+  sortReviewsByDate
 };

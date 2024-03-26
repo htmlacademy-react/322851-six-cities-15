@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 import { DetailedOffer, Offers } from '../types/offers';
 import { AppRoute, AuthorizationStatus, SortBy } from '../consts';
-import { Reviews } from '../types/reviews';
+import { Review, Reviews } from '../types/reviews';
 
 
 const changeCity = createAction<{city: string}>('changeCity');
@@ -14,6 +14,7 @@ const redirectToRoute = createAction<AppRoute>('redirectToRoute');
 const setCurrentOffer = createAction<DetailedOffer>('setCurrentOffer');
 const setNearbyOffers = createAction<Offers>('setNearbyOffers');
 const setReviews = createAction<Reviews>('setReviews');
+const addNewReview = createAction<Review>('addNewReview');
 
 export {
   changeCity,
@@ -25,5 +26,6 @@ export {
   redirectToRoute,
   setCurrentOffer,
   setNearbyOffers,
-  setReviews
+  setReviews,
+  addNewReview
 };

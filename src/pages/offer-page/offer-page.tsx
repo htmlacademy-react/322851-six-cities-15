@@ -23,9 +23,11 @@ function OfferPage(): JSX.Element {
   const { offerId } = useParams();
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
-  if (nearbyOffers !== null && points === null && currentOffer?.id === offerId) {
-    setPoints(nearbyOffers.slice(0, 3).map((offer) => offer.location));
-  }
+  useEffect(() => {
+    if (nearbyOffers) {
+      setPoints(nearbyOffers.map((offer) => offer.location));
+    }
+  }, [nearbyOffers]);
 
   useEffect(() => {
     if (offerId && currentOffer?.id !== offerId) {
@@ -47,24 +49,11 @@ function OfferPage(): JSX.Element {
       <section className="offer">
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
-            <div className="offer__image-wrapper">
-              <img className="offer__image" src="img/room.jpg" alt="Photo studio" />
-            </div>
-            <div className="offer__image-wrapper">
-              <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio" />
-            </div>
-            <div className="offer__image-wrapper">
-              <img className="offer__image" src="img/apartment-02.jpg" alt="Photo studio" />
-            </div>
-            <div className="offer__image-wrapper">
-              <img className="offer__image" src="img/apartment-03.jpg" alt="Photo studio" />
-            </div>
-            <div className="offer__image-wrapper">
-              <img className="offer__image" src="img/studio-01.jpg" alt="Photo studio" />
-            </div>
-            <div className="offer__image-wrapper">
-              <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio" />
-            </div>
+            { currentOffer.images.map((imageSrc) => (
+              <div className="offer__image-wrapper" key={imageSrc}>
+                <img className="offer__image" src={imageSrc} alt="Photo studio" />
+              </div>
+            )) }
           </div>
         </div>
         <div className="offer__container container">
@@ -142,7 +131,7 @@ function OfferPage(): JSX.Element {
             </div>
             <section className="offer__reviews reviews">
               {offerId && <ReviewList offerId={offerId} />}
-              {isAuth && <ReviewForm />}
+              {isAuth && <ReviewForm offerId={offerId} />}
             </section>
           </div>
         </div>
@@ -156,7 +145,7 @@ function OfferPage(): JSX.Element {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <OffersList offers={nearbyOffers.slice(0,3)} classNamePrefix={PlaceCardClassNamePrefix.Offer} />
+              <OffersList offers={nearbyOffers} classNamePrefix={PlaceCardClassNamePrefix.Offer} />
             </div>
           </section>
         }

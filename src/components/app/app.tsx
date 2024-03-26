@@ -8,9 +8,7 @@ import PrivateRoute from '../private-route/private-route';
 import Page404 from '../../pages/page-404/page-404';
 import { HelmetProvider } from 'react-helmet-async';
 import { Offers } from '../../types/offers';
-import detailedOffers from '../../mocks/detailedOffers';
 import Layout from '../layout/layout';
-import reviews from '../../mocks/reviews';
 import { useAppSelector } from '../../hooks/use-app-dispatch';
 import Loader from '../loader/loader';
 import HistoryRouter from '../history-route/history-route';
@@ -58,7 +56,7 @@ function App({offers}: AppProps): JSX.Element {
 
             <Route
               path={AppRoute.Offer}
-              element={<OfferPage reviews={reviews} detaildeOffers={detailedOffers} shortOffers={offers} />}
+              element={<OfferPage />}
             />
 
             <Route

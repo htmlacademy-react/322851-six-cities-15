@@ -26,6 +26,8 @@ const StatusCodeMapping: Record<number, boolean> = {
 const Setting = {
   OffersCount: 5,
   MaxRating: 5,
+  NearbyOffersCount: 3,
+  ReviewsShownCount: 10,
   BaseUrl: 'https://15.design.htmlacademy.pro/six-cities',
   ApiTimeout: 5000
 } as const;
@@ -53,7 +55,8 @@ enum AppRoute {
   Main = '/',
   Login = '/login',
   Favorites = '/favorites',
-  Offer = '/offer/:offerId'
+  Offer = '/offer/:offerId',
+  Page404 = '/404'
 }
 
 enum AuthorizationStatus {
