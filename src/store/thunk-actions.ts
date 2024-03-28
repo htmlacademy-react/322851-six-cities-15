@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { Dispatch, State } from '../types/state';
 import { ApiRoute, AppRoute } from '../consts';
-import { DetailedOffer, Offers } from '../types/offers';
+import { DetailedOffer, Offer, Offers } from '../types/offers';
 import { redirectToRoute } from './actions';
 import { dropToken, saveToken } from '../services/token';
 import { AuthData, UserData } from '../types/auth';
@@ -55,6 +55,16 @@ const uploadNewReview = createAsyncThunk<Review, {offerId: string; comment: stri
   return data;
 });
 
+const uploadFavoriteOffers = createAsyncThunk<Offers, undefined, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('uploadFavoriteOffers', async (_arg, {extra: api}) => {
+  const { data } = await api.get<Offers>(ApiRoute.Favorites);
+  return data;
+});
+
+const toggleFavoriteStatus = createAsyncThunk<{offer: Offer; offerId: string}, {offerId: string; status: number}, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('toggleFavoriteStatus', async ({offerId, status}, {extra: api}) => {
+  const { data } = await api.post<Offer>(`${ApiRoute.Favorites}/${offerId}/${status}`);
+  return {offer: data, offerId: offerId};
+});
+
 export {
   uploadOffers,
   checkAuthorization,
@@ -63,7 +73,9 @@ export {
   uploadOfferById,
   uploadNearbyOffers,
   uploadReviews,
-  uploadNewReview
+  uploadNewReview,
+  uploadFavoriteOffers,
+  toggleFavoriteStatus
 };
 
 

@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { DEFAULT_CITY, NameSpace, SortBy } from '../../consts';
 import { MainProcess } from '../../types/state';
-import { uploadOffers } from '../thunk-actions';
+import { toggleFavoriteStatus, uploadFavoriteOffers, uploadOffers } from '../thunk-actions';
 import { sortAndFilterOffers } from '../../utils';
 
 const initialState: MainProcess = {
@@ -10,7 +10,8 @@ const initialState: MainProcess = {
   offers: null,
   sortBy: SortBy.Popular,
   isLoading: false,
-  errorStatus: false
+  errorStatus: false,
+  favoriteOffers: null
 };
 
 
@@ -45,6 +46,15 @@ const mainProcess = createSlice({
       .addCase(uploadOffers.rejected, (state) => {
         state.errorStatus = true;
         state.isLoading = false;
+      })
+      .addCase(uploadFavoriteOffers.fulfilled, (state, action) => {
+        state.favoriteOffers = action.payload;
+      })
+      .addCase(toggleFavoriteStatus.fulfilled, (state, action) => {
+        if (state.initialOffers) {
+          const filteredOffers = state.initialOffers.filter((offer) => offer.id !== action.payload.offerId);
+          state.initialOffers = [...filteredOffers, action.payload.offer];
+        }
       });
   },
 

@@ -2,19 +2,26 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../consts';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks/use-app-dispatch';
-import { logoutUser } from '../../store/thunk-actions';
+import { logoutUser, uploadFavoriteOffers } from '../../store/thunk-actions';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
-import { getInitialOffers } from '../../store/main-process/selectors';
+import { getFavoriteOffers } from '../../store/main-process/selectors';
+import { useEffect } from 'react';
+import { store } from '../../store';
 
 function Layout(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const offers = useAppSelector(getInitialOffers);
-  const favoriteOffers = offers?.filter((offer) => offer.isFavorite);
+  const favoriteOffers = useAppSelector(getFavoriteOffers);
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
   const pathname = window.location.pathname as AppRoute;
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const isNotLogin = pathname !== AppRoute.Login;
+
+  useEffect(() => {
+    if (!favoriteOffers && isAuth) {
+      store.dispatch(uploadFavoriteOffers());
+    }
+  });
 
   const loginClickHandler = (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault();
@@ -27,7 +34,13 @@ function Layout(): JSX.Element {
   };
 
   return (
-    <div className={classNames({'page': true, 'page--gray page--main': (pathname === AppRoute.Main), 'page--gray page--login': (pathname === AppRoute.Login)})}>
+    <div className={classNames({
+      'page': true,
+      'page--gray page--main': (pathname === AppRoute.Main),
+      'page--gray page--login': (pathname === AppRoute.Login),
+      'page--favorites-empty': (pathname === AppRoute.Favorites && favoriteOffers?.length === 0)
+    })}
+    >
       <header className="header">
         <div className="container">
           <div className="header__wrapper">

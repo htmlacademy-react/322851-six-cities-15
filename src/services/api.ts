@@ -26,7 +26,7 @@ const createAPI = (): AxiosInstance => {
     (response) => response,
     (error: AxiosError<DetailMessageType>) => {
       if (error.response && StatusCodeMapping[error.response.status]) {
-        toast.warn(error.response.data.message);
+        toast.warn(error.response.data.message, {position: 'top-center', theme: 'colored' });
       }
       throw error;
     });

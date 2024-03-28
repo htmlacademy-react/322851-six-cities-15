@@ -7,6 +7,7 @@ const getLoadingStatus = (state: State) => state[NameSpace.OFFERS].isLoading;
 const getSortBy = (state: State) => state[NameSpace.OFFERS].sortBy;
 const getCurrentCity = (state: State) => state[NameSpace.OFFERS].city;
 const getErrorStatus = (state: State) => state[NameSpace.OFFERS].errorStatus;
+const getFavoriteOffers = (state: State) => state[NameSpace.OFFERS].favoriteOffers;
 
 export {
   getInitialOffers,
@@ -14,5 +15,6 @@ export {
   getLoadingStatus,
   getSortBy,
   getCurrentCity,
-  getErrorStatus
+  getErrorStatus,
+  getFavoriteOffers
 };

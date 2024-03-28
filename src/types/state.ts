@@ -10,6 +10,7 @@ export type MainProcess = {
   sortBy: SortBy;
   isLoading: boolean;
   errorStatus: boolean;
+  favoriteOffers: null | Offers;
 };
 
 export type OfferProcess = {
@@ -17,7 +18,6 @@ export type OfferProcess = {
   nearbyOffers: null | Offers;
   reviews: null | Reviews;
 }
-
 
 export type UserProcess = {
   authorizationStatus: AuthorizationStatus;
