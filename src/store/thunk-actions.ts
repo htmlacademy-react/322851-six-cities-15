@@ -60,9 +60,9 @@ const uploadFavoriteOffers = createAsyncThunk<Offers, undefined, {dispatch: Disp
   return data;
 });
 
-const toggleFavoriteStatus = createAsyncThunk<{offer: Offer; offerId: string}, {offerId: string; status: number}, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('toggleFavoriteStatus', async ({offerId, status}, {extra: api}) => {
+const toggleFavoriteStatus = createAsyncThunk<Offer, {offerId: string; status: number}, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('toggleFavoriteStatus', async ({offerId, status}, {extra: api}) => {
   const { data } = await api.post<Offer>(`${ApiRoute.Favorites}/${offerId}/${status}`);
-  return {offer: data, offerId: offerId};
+  return data;
 });
 
 export {

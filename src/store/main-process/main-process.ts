@@ -52,9 +52,16 @@ const mainProcess = createSlice({
       })
       .addCase(toggleFavoriteStatus.fulfilled, (state, action) => {
         if (state.initialOffers) {
-          const filteredOffers = state.initialOffers.filter((offer) => offer.id !== action.payload.offerId);
-          state.initialOffers = [...filteredOffers, action.payload.offer];
+          const filteredOffers = state.initialOffers.filter((offer) => offer.id !== action.payload.id);
+          state.initialOffers = [...filteredOffers, action.payload];
+          state.offers = sortAndFilterOffers(state.city, state.sortBy, [...filteredOffers, action.payload]);
         }
+        if (state.favoriteOffers) {
+          state.favoriteOffers = (action.payload.isFavorite) ? [...state.favoriteOffers, action.payload] : [...state.favoriteOffers.filter((offer) => offer.id !== action.payload.id)];
+        } else {
+          state.favoriteOffers = [action.payload];
+        }
+
       });
   },
 
