@@ -13,12 +13,14 @@ import classNames from 'classnames';
 import { store } from '../../store';
 import Loader from '../../components/loader/loader';
 import { useAppSelector } from '../../hooks/use-app-dispatch';
+import { getCurrentOffer, getNearbyOffers } from '../../store/offer-process/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 
 function OfferPage(): JSX.Element {
-  const currentOffer = useAppSelector((state) => state.currentOffer);
-  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const currentOffer = useAppSelector(getCurrentOffer);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const [points, setPoints] = useState<null | OfferLocation[]>(null);
   const { offerId } = useParams();
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;

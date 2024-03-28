@@ -8,13 +8,14 @@ import { useAppSelector } from '../../hooks/use-app-dispatch';
 import EmptyCardsList from '../../components/empty-cards-list/empty-cards-list';
 import SortingForm from '../../components/sorting-form/sorting-form';
 import Loader from '../../components/loader/loader';
+import { getCurrentCity, getOffers } from '../../store/main-process/selectors';
 
 function Main(): JSX.Element {
   const [activeCard, setActiveCard] = useState<null | string>(null);
 
-  const offers = useAppSelector((state) => state.offers);
+  const offers = useAppSelector(getOffers);
 
-  const currentCity = useAppSelector((state) => state.city);
+  const currentCity = useAppSelector(getCurrentCity);
 
   const activeCardChangeHandler = (id: string | null) => setActiveCard(id);
 

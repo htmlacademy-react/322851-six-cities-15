@@ -3,10 +3,12 @@ import { AppRoute, AuthorizationStatus } from '../../consts';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks/use-app-dispatch';
 import { logoutUser } from '../../store/thunk-actions';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { getInitialOffers } from '../../store/main-process/selectors';
 
 function Layout(): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const offers = useAppSelector((state) => state.initialOffers);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const offers = useAppSelector(getInitialOffers);
   const favoriteOffers = offers?.filter((offer) => offer.isFavorite);
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
   const pathname = window.location.pathname as AppRoute;

@@ -70,11 +70,13 @@ const getRandomSubArray = <T>(arr: T[], count: number) => {
   return newArray;
 };
 
-const sortReviewsByDate = (reviews: Reviews | null) => {
+const sortReviewsByDate = (reviews: Reviews) => {
   if (reviews !== null && reviews.length > 1) {
     const newReviews = [...reviews];
     newReviews.sort((firstReview, secondReview) => dayjs(secondReview.date).valueOf() - dayjs(firstReview.date).valueOf());
-
+    if (newReviews.length > Setting.ReviewsShownCount) {
+      return newReviews.slice(0, Setting.ReviewsShownCount);
+    }
     return newReviews;
   }
   return reviews;

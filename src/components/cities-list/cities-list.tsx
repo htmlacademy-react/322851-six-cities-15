@@ -1,18 +1,17 @@
 import { CITIES } from '../../consts';
-import { changeCity, updateOffers } from '../../store/actions';
+import { changeCity, updateOffers } from '../../store/main-process/main-process';
 import { useAppDispatch, useAppSelector } from '../../hooks/use-app-dispatch';
 import classNames from 'classnames';
+import { getCurrentCity } from '../../store/main-process/selectors';
 
 
 function CitiesList(): JSX.Element {
-  const currentCity = useAppSelector((state) => state.city);
-
+  const currentCity = useAppSelector(getCurrentCity);
   const dispatch = useAppDispatch();
 
   const cityTabClickHandler = ({ currentTarget }: React.MouseEvent<HTMLElement>) => {
     dispatch(changeCity({city: currentTarget.innerText}));
     dispatch(updateOffers());
-
   };
 
   return (

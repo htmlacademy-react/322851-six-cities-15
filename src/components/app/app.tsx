@@ -13,6 +13,8 @@ import { useAppSelector } from '../../hooks/use-app-dispatch';
 import Loader from '../loader/loader';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
+import { getLoadingStatus } from '../../store/main-process/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 
 type AppProps = {
@@ -20,9 +22,9 @@ type AppProps = {
 }
 
 function App({offers}: AppProps): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
-  const isLoading = useAppSelector((state) => state.isLoading);
+  const isLoading = useAppSelector(getLoadingStatus);
 
   if (isLoading) {
     return (
