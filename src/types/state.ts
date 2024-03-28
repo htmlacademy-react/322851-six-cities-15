@@ -9,6 +9,7 @@ export type MainProcess = {
   offers: null | Offers;
   sortBy: SortBy;
   isLoading: boolean;
+  errorStatus: boolean;
 };
 
 export type OfferProcess = {

@@ -10,6 +10,7 @@ const initialState: MainProcess = {
   offers: null,
   sortBy: SortBy.Popular,
   isLoading: false,
+  errorStatus: false
 };
 
 
@@ -34,10 +35,15 @@ const mainProcess = createSlice({
     builder
       .addCase(uploadOffers.pending, (state) => {
         state.isLoading = true;
+        state.errorStatus = false;
       })
       .addCase(uploadOffers.fulfilled, (state, action) => {
         state.initialOffers = action.payload;
         state.offers = sortAndFilterOffers(state.city, state.sortBy, state.initialOffers);
+        state.isLoading = false;
+      })
+      .addCase(uploadOffers.rejected, (state) => {
+        state.errorStatus = true;
         state.isLoading = false;
       });
   },
