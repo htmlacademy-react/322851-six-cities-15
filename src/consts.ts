@@ -1,3 +1,5 @@
+import { StatusCodes } from 'http-status-codes';
+
 const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 const DEFAULT_CITY = 'Paris';
 const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
@@ -8,12 +10,24 @@ enum DateFormat {
 }
 
 enum ApiRoute {
-  Offers = '/offers'
+  Offers = '/offers',
+  Login = '/login',
+  Favorites = '/favorite',
+  Logout = '/logout',
+  Comments = '/comments'
 }
+
+const StatusCodeMapping: Record<number, boolean> = {
+  [StatusCodes.BAD_REQUEST]: true,
+  [StatusCodes.UNAUTHORIZED]: true,
+  [StatusCodes.NOT_FOUND]: true
+};
 
 const Setting = {
   OffersCount: 5,
   MaxRating: 5,
+  NearbyOffersCount: 3,
+  ReviewsShownCount: 10,
   BaseUrl: 'https://15.design.htmlacademy.pro/six-cities',
   ApiTimeout: 5000
 } as const;
@@ -41,7 +55,8 @@ enum AppRoute {
   Main = '/',
   Login = '/login',
   Favorites = '/favorites',
-  Offer = '/offer/:offerId'
+  Offer = '/offer/:offerId',
+  Page404 = '/404'
 }
 
 enum AuthorizationStatus {
@@ -61,5 +76,6 @@ export {
   DEFAULT_CITY,
   SortBy,
   AUTH_TOKEN_KEY_NAME,
-  ApiRoute
+  ApiRoute,
+  StatusCodeMapping
 };

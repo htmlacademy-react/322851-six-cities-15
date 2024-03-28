@@ -1,26 +1,45 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Setting } from '../../consts';
+import { uploadNewReview } from '../../store/thunk-actions';
+import { store } from '../../store';
 
-function ReviewForm(): JSX.Element {
+type ReviewFormProps = {
+  offerId: string;
+}
+
+function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
+  const [submitButtonStatus, setSubmitButtonStatus] = useState(false);
   const [formData, setFormData] = useState({
-    raiting: 0,
-    review: ''
+    rating: 0,
+    comment: '',
+    offerId: offerId
   });
 
   const raitingChangeHandler = ({target}: ChangeEvent<HTMLInputElement>) => {
     if (target.tagName === 'INPUT') {
-      setFormData({...formData, raiting: parseInt(target.value, 10)});
+      setFormData({...formData, rating: parseInt(target.value, 10)});
     }
   };
 
   const reviewChangeHandler = ({target}: ChangeEvent<HTMLTextAreaElement>) => {
     if (target.tagName === 'TEXTAREA') {
-      setFormData({...formData, review: target.value});
+      setFormData({...formData, comment: target.value});
     }
   };
 
+  const formSubmitHandler = (evt: React.FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    setSubmitButtonStatus(true);
+    store.dispatch(uploadNewReview({...formData, cb: () => setSubmitButtonStatus(false)}));
+    setFormData({
+      rating: 0,
+      comment: '',
+      offerId: offerId
+    });
+  };
+
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onSubmit={formSubmitHandler}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating" onChange={raitingChangeHandler}>
         {
@@ -41,7 +60,7 @@ function ReviewForm(): JSX.Element {
         <p className="reviews__help">
         To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={submitButtonStatus}>Submit</button>
       </div>
     </form>
   );

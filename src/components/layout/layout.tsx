@@ -1,16 +1,28 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../consts';
 import classNames from 'classnames';
-import { useAppSelector } from '../../hooks/use-app-dispatch';
+import { useAppDispatch, useAppSelector } from '../../hooks/use-app-dispatch';
+import { logoutUser } from '../../store/thunk-actions';
 
 function Layout(): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const offers = useAppSelector((state) => state.initialOffers);
-  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+  const favoriteOffers = offers?.filter((offer) => offer.isFavorite);
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
   const pathname = window.location.pathname as AppRoute;
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const isNotLogin = pathname !== AppRoute.Login;
+
+  const loginClickHandler = (evt: React.MouseEvent<HTMLElement>) => {
+    evt.preventDefault();
+    if (isAuth) {
+      dispatch(logoutUser());
+      navigate(AppRoute.Main);
+    } else {
+      navigate(AppRoute.Login);
+    }
+  };
 
   return (
     <div className={classNames({'page': true, 'page--gray page--main': (pathname === AppRoute.Main), 'page--gray page--login': (pathname === AppRoute.Login)})}>
@@ -31,11 +43,11 @@ function Layout(): JSX.Element {
                   <div className="header__avatar-wrapper user__avatar-wrapper">
                   </div>
                   <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  <span className="header__favorite-count">{favoriteOffers.length}</span>
+                  <span className="header__favorite-count">{(favoriteOffers) ? favoriteOffers.length : ''}</span>
                 </Link>
               </li>}
                 <li className="header__nav-item">
-                  <Link className="header__nav-link" to={AppRoute.Login}>
+                  <Link className="header__nav-link" to={(isAuth) ? AppRoute.Login : AppRoute.Main} onClick={loginClickHandler}>
                     <span className="header__signout">{(isAuth) ? 'Log Out' : 'Login'}</span>
                   </Link>
                 </li>

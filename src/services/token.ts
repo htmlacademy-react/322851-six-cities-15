@@ -1,6 +1,5 @@
 import { AUTH_TOKEN_KEY_NAME } from '../consts';
-
-type Token =string;
+import { Token } from '../types/auth';
 
 const getToken = (): Token => {
   const token = localStorage.getItem(AUTH_TOKEN_KEY_NAME);

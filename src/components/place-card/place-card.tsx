@@ -12,7 +12,6 @@ type PlaceCardProps = {
 
 function PlaceCard({ offer, classNamePrefix, imageSize, onMouseEnter, onMouseLeave }: PlaceCardProps): JSX.Element {
   const isFavorite = (offer.isFavorite) ? 'place-card__bookmark-button--active' : '';
-
   return (
     <article className={`${classNamePrefix}__card place-card`}>
       {offer.isPremium && <div className="place-card__mark"><span>Premium</span></div>}
