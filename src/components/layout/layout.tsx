@@ -1,17 +1,16 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../consts';
+import { AppRoute } from '../../consts';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks/use-app-dispatch';
 import { logoutUser, uploadFavoriteOffers } from '../../store/thunk-actions';
-import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { checkAuthentication } from '../../store/user-process/selectors';
 import { getFavoriteOffers } from '../../store/main-process/selectors';
 import { useEffect } from 'react';
 import { store } from '../../store';
 
 function Layout(): JSX.Element {
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const favoriteOffers = useAppSelector(getFavoriteOffers);
-  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
+  const isAuth = useAppSelector(checkAuthentication);
   const pathname = window.location.pathname as AppRoute;
   const navigate = useNavigate();
   const dispatch = useAppDispatch();

@@ -49,10 +49,14 @@ const uploadReviews = createAsyncThunk<Reviews, string, {dispatch: Dispatch; sta
   return data;
 });
 
-const uploadNewReview = createAsyncThunk<Review, {offerId: string; comment: string; rating: number; cb: () => void}, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('loginUser', async ({ offerId, comment, rating, cb }, {extra: api}) => {
-  const { data } = await api.post<Review>(`${ApiRoute.Comments}/${offerId}`, {comment, rating});
-  cb();
-  return data;
+const uploadNewReview = createAsyncThunk<Review | undefined, {offerId: string; comment: string; rating: number; disableForm: (status: boolean) => void}, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('loginUser', async ({ offerId, comment, rating, disableForm }, {extra: api}) => {
+  try {
+    const { data } = await api.post<Review>(`${ApiRoute.Comments}/${offerId}`, {comment, rating});
+    disableForm(true);
+    return data;
+  } catch {
+    disableForm(false);
+  }
 });
 
 const uploadFavoriteOffers = createAsyncThunk<Offers, undefined, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('uploadFavoriteOffers', async (_arg, {extra: api}) => {

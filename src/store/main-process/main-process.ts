@@ -61,7 +61,6 @@ const mainProcess = createSlice({
         } else {
           state.favoriteOffers = [action.payload];
         }
-
       });
   },
 

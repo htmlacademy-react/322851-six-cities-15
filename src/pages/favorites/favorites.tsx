@@ -1,24 +1,18 @@
 import { Helmet } from 'react-helmet-async';
-import { AuthorizationStatus, CITIES, PlaceCardClassNamePrefix } from '../../consts';
+import { CITIES, PlaceCardClassNamePrefix } from '../../consts';
 import OffersList from '../../components/offers-list/offers-list';
 import { useAppSelector } from '../../hooks/use-app-dispatch';
 import { getFavoriteOffers } from '../../store/main-process/selectors';
-import { getAuthorizationStatus } from '../../store/user-process/selectors';
-import React, { useEffect } from 'react';
-import { store } from '../../store';
-import { uploadFavoriteOffers } from '../../store/thunk-actions';
+import { checkAuthentication } from '../../store/user-process/selectors';
 import { Footer } from '../../components/footer/footer';
+import { useFavoriteOffers } from '../../hooks/use-favorite-offers';
+import React from 'react';
 
 function Favorites(): JSX.Element {
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const favoriteOffers = useAppSelector(getFavoriteOffers);
-  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
+  const isAuth = useAppSelector(checkAuthentication);
 
-  useEffect(() => {
-    if (!favoriteOffers && isAuth) {
-      store.dispatch(uploadFavoriteOffers());
-    }
-  });
+  useFavoriteOffers(favoriteOffers, isAuth);
 
   if (favoriteOffers?.length === 0) {
     return (

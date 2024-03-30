@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { NameSpace, Setting } from '../../consts';
-import { uploadNearbyOffers, uploadNewReview, uploadOfferById, uploadReviews } from '../thunk-actions';
+import { toggleFavoriteStatus, uploadNearbyOffers, uploadNewReview, uploadOfferById, uploadReviews } from '../thunk-actions';
 import { OfferProcess } from '../../types/state';
 import { getRandomSubArray } from '../../utils';
 
@@ -29,10 +29,17 @@ const offerProcess = createSlice({
         state.reviews = action.payload;
       })
       .addCase(uploadNewReview.fulfilled, (state, action) => {
-        if (state.reviews) {
-          state.reviews = [...state.reviews, action.payload];
-        } else {
-          state.reviews = [action.payload];
+        if (action.payload) {
+          if (state.reviews) {
+            state.reviews = [...state.reviews, action.payload];
+          } else {
+            state.reviews = [action.payload];
+          }
+        }
+      })
+      .addCase(toggleFavoriteStatus.fulfilled, (state, action) => {
+        if (state.currentOffer?.id === action.payload.id) {
+          state.currentOffer = {...state.currentOffer, isFavorite: action.payload.isFavorite};
         }
       });
   },

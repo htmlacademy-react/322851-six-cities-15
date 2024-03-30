@@ -3,8 +3,8 @@ import { Offer } from '../../types/offers';
 import { calculateRatingWidth, capitalizeWord } from '../../utils';
 import { useAppDispatch, useAppSelector } from '../../hooks/use-app-dispatch';
 import { toggleFavoriteStatus } from '../../store/thunk-actions';
-import { AppRoute, AuthorizationStatus } from '../../consts';
-import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { AppRoute } from '../../consts';
+import { checkAuthentication } from '../../store/user-process/selectors';
 
 type PlaceCardProps = {
     offer: Offer;
@@ -16,12 +16,12 @@ type PlaceCardProps = {
 
 function PlaceCard({ offer, classNamePrefix, imageSize, onMouseEnter, onMouseLeave }: PlaceCardProps): JSX.Element {
   const isFavorite = (offer.isFavorite) ? 'place-card__bookmark-button--active' : '';
-  const authenticationStatus = useAppSelector(getAuthorizationStatus);
+  const isAuth = useAppSelector(checkAuthentication);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const favoriteButtonClickHandler = () => {
-    if (authenticationStatus === AuthorizationStatus.Auth) {
+    if (isAuth) {
       const status = (isFavorite) ? 0 : 1;
       dispatch(toggleFavoriteStatus({offerId: offer.id, status: status}));
     } else {

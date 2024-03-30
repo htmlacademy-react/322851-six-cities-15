@@ -13,12 +13,10 @@ import Loader from '../loader/loader';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 import { getErrorStatus, getLoadingStatus } from '../../store/main-process/selectors';
-import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { ErrorScreen } from '../error-screen/error-screen';
 
 
 function App(): JSX.Element {
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isLoading = useAppSelector(getLoadingStatus);
   const isError = useAppSelector(getErrorStatus);
 
@@ -54,7 +52,7 @@ function App(): JSX.Element {
             <Route
               path={AppRoute.Favorites}
               element={
-                <PrivateRoute authorizationStatus={authorizationStatus}>
+                <PrivateRoute>
                   <Favorites />
                 </PrivateRoute>
               }
