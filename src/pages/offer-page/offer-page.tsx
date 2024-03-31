@@ -1,27 +1,30 @@
 import { Helmet } from 'react-helmet-async';
 import { OfferLocation } from '../../types/offers';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { calculateRatingWidth, capitalizeWord } from '../../utils';
 import ReviewForm from '../../components/review-form/review-form';
 import ReviewList from '../../components/review-list/review-list';
 import Map from '../../components/map/map';
-import { AuthorizationStatus, PlaceCardClassNamePrefix } from '../../consts';
+import { AppRoute, PlaceCardClassNamePrefix } from '../../consts';
 import OffersList from '../../components/offers-list/offers-list';
 import { useEffect, useState } from 'react';
-import { uploadNearbyOffers, uploadOfferById } from '../../store/thunk-actions';
+import { toggleFavoriteStatus, uploadNearbyOffers, uploadOfferById } from '../../store/thunk-actions';
 import classNames from 'classnames';
 import { store } from '../../store';
 import Loader from '../../components/loader/loader';
-import { useAppSelector } from '../../hooks/use-app-dispatch';
+import { useAppDispatch, useAppSelector } from '../../hooks/use-app-dispatch';
+import { getCurrentOffer, getNearbyOffers } from '../../store/offer-process/selectors';
+import { checkAuthentication } from '../../store/user-process/selectors';
 
 
 function OfferPage(): JSX.Element {
-  const currentOffer = useAppSelector((state) => state.currentOffer);
-  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const currentOffer = useAppSelector(getCurrentOffer);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
   const [points, setPoints] = useState<null | OfferLocation[]>(null);
   const { offerId } = useParams();
-  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
+  const isAuth = useAppSelector(checkAuthentication);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (nearbyOffers) {
@@ -35,6 +38,17 @@ function OfferPage(): JSX.Element {
       store.dispatch(uploadNearbyOffers(offerId));
     }
   }, [offerId, currentOffer]);
+
+  const favoriteButtonClickHandler = () => {
+    if (currentOffer) {
+      if (isAuth) {
+        const status = (currentOffer.isFavorite) ? 0 : 1;
+        dispatch(toggleFavoriteStatus({offerId: currentOffer.id, status: status}));
+      } else {
+        navigate(AppRoute.Login);
+      }
+    }
+  };
 
 
   if (!currentOffer || currentOffer.id !== offerId) {
@@ -69,7 +83,7 @@ function OfferPage(): JSX.Element {
               <button className={classNames({
                 'offer__bookmark-button button': true,
                 'offer__bookmark-button--active': currentOffer.isFavorite
-              })} type="button"
+              })} type="button" onClick={favoriteButtonClickHandler}
               >
                 <svg className="offer__bookmark-icon" width="31" height="33">
                   <use xlinkHref="#icon-bookmark"></use>
@@ -136,7 +150,7 @@ function OfferPage(): JSX.Element {
           </div>
         </div>
         <section className="offer__map map">
-          {points && <Map cityLocation={currentOffer.city.location} points={points.concat([currentOffer.location])} selectedPoint={currentOffer.location} />}
+          {points && <Map cityLocation={currentOffer.city.location} points={[...points, currentOffer.location]} selectedPoint={currentOffer.location} />}
         </section>
       </section>
       <div className="container">

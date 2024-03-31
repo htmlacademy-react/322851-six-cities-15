@@ -1,80 +1,73 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { Dispatch, State } from '../types/state';
-import { ApiRoute, AppRoute, AuthorizationStatus, Setting } from '../consts';
+import { ApiRoute, AppRoute } from '../consts';
 import { DetailedOffer, Offer, Offers } from '../types/offers';
-import { addNewReview, initializeOffers, redirectToRoute, setCurrentOffer, setNearbyOffers, setReviews, toggleLoading, updateAuthorization, updateOffers } from './actions';
+import { redirectToRoute } from './actions';
 import { dropToken, saveToken } from '../services/token';
 import { AuthData, UserData } from '../types/auth';
 import { Review, Reviews } from '../types/reviews';
-import { getRandomSubArray } from '../utils';
 
-const uploadOffers = createAsyncThunk<void, undefined, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('uploadOffers', async (_arg, {dispatch, extra: api}) => {
-  dispatch(toggleLoading());
+const uploadOffers = createAsyncThunk<Offers, undefined, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('uploadOffers', async (_arg, {extra: api}) => {
   const { data } = await api.get<Offers>(ApiRoute.Offers);
-  dispatch(initializeOffers({offers: data}));
-  dispatch(updateOffers());
-  dispatch(toggleLoading());
+  return data;
 });
 
-const checkAuthorization = createAsyncThunk<void, undefined, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('checkAuthorization', async (_arg, {dispatch, extra: api}) => {
-  try {
-    await api.get(ApiRoute.Login);
-    dispatch(updateAuthorization({authorizationStatus: AuthorizationStatus.Auth}));
-  } catch {
-    dispatch(updateAuthorization({authorizationStatus: AuthorizationStatus.NoAuth}));
-  }
+const checkAuthorization = createAsyncThunk<void, undefined, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('checkAuthorization', async (_arg, {extra: api}) => {
+  await api.get(ApiRoute.Login);
 });
 
 const loginUser = createAsyncThunk<void, AuthData, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('loginUser', async ({ email, password }, {dispatch, extra: api}) => {
-  try {
-    const {data: { token } } = await api.post<UserData>(ApiRoute.Login, {email, password});
-    saveToken(token);
-    dispatch(updateAuthorization({authorizationStatus: AuthorizationStatus.Auth}));
-    dispatch(redirectToRoute(AppRoute.Main));
-  } catch {
-    dispatch(updateAuthorization({authorizationStatus: AuthorizationStatus.NoAuth}));
-  }
+  const {data: { token } } = await api.post<UserData>(ApiRoute.Login, {email, password});
+  saveToken(token);
+  dispatch(redirectToRoute(AppRoute.Main));
 });
 
-const logoutUser = createAsyncThunk<void, undefined, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('logoutUser', async (_arg, {dispatch, extra: api}) => {
+const logoutUser = createAsyncThunk<void, undefined, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('logoutUser', async (_arg, {extra: api}) => {
   await api.delete(ApiRoute.Logout);
   dropToken();
-  dispatch(updateAuthorization({authorizationStatus: AuthorizationStatus.NoAuth}));
-
 });
 
 
-const uploadOfferById = createAsyncThunk<void, string, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('uploadOfferInfoById', async (offerId, { dispatch, extra: api}) => {
+const uploadOfferById = createAsyncThunk<DetailedOffer | void, string, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('uploadOfferInfoById', async (offerId, { dispatch, extra: api}) => {
   try {
     const { data } = await api.get<DetailedOffer>(`${ApiRoute.Offers}/${offerId}`);
-    dispatch(setCurrentOffer(data));
+    return data;
   } catch {
     dispatch(redirectToRoute(AppRoute.Page404));
   }
 
 });
 
-const uploadNearbyOffers = createAsyncThunk<void, string, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('uploadOfferById', async (offerId, { dispatch, extra: api}) => {
+const uploadNearbyOffers = createAsyncThunk<Offers, string, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('uploadOfferById', async (offerId, {extra: api}) => {
   const { data } = await api.get<Offers>(`${ApiRoute.Offers}/${offerId}/nearby`);
-  dispatch(setNearbyOffers(getRandomSubArray<Offer>(data, Setting.NearbyOffersCount)));
+  return data;
 });
 
-const uploadReviews = createAsyncThunk<void, string, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('uploadReviews', async (offerId, { dispatch, extra: api}) => {
+const uploadReviews = createAsyncThunk<Reviews, string, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('uploadReviews', async (offerId, {extra: api}) => {
   const { data } = await api.get<Reviews>(`${ApiRoute.Comments}/${offerId}`);
-  dispatch(setReviews(data));
+  return data;
 });
 
-const uploadNewReview = createAsyncThunk<void, {offerId: string; comment: string; rating: number; cb: () => void}, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('loginUser', async ({ offerId, comment, rating, cb }, {dispatch, extra: api}) => {
+const uploadNewReview = createAsyncThunk<Review | undefined, {offerId: string; comment: string; rating: number; disableForm: (status: boolean) => void}, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('loginUser', async ({ offerId, comment, rating, disableForm }, {extra: api}) => {
   try {
     const { data } = await api.post<Review>(`${ApiRoute.Comments}/${offerId}`, {comment, rating});
-    dispatch(addNewReview(data));
-    cb();
+    disableForm(true);
+    return data;
   } catch {
-    cb();
+    disableForm(false);
   }
 });
 
+const uploadFavoriteOffers = createAsyncThunk<Offers, undefined, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('uploadFavoriteOffers', async (_arg, {extra: api}) => {
+  const { data } = await api.get<Offers>(ApiRoute.Favorites);
+  return data;
+});
+
+const toggleFavoriteStatus = createAsyncThunk<Offer, {offerId: string; status: number}, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('toggleFavoriteStatus', async ({offerId, status}, {extra: api}) => {
+  const { data } = await api.post<Offer>(`${ApiRoute.Favorites}/${offerId}/${status}`);
+  return data;
+});
 
 export {
   uploadOffers,
@@ -84,7 +77,9 @@ export {
   uploadOfferById,
   uploadNearbyOffers,
   uploadReviews,
-  uploadNewReview
+  uploadNewReview,
+  uploadFavoriteOffers,
+  toggleFavoriteStatus
 };
 
 

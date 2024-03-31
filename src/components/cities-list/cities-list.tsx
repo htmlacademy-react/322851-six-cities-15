@@ -1,18 +1,17 @@
 import { CITIES } from '../../consts';
-import { changeCity, updateOffers } from '../../store/actions';
+import { changeCity, updateOffers } from '../../store/main-process/main-process';
 import { useAppDispatch, useAppSelector } from '../../hooks/use-app-dispatch';
 import classNames from 'classnames';
+import { getCurrentCity } from '../../store/main-process/selectors';
+import React, { memo } from 'react';
 
-
-function CitiesList(): JSX.Element {
-  const currentCity = useAppSelector((state) => state.city);
-
+const CitiesListTemplate = function CitiesList(): JSX.Element {
+  const currentCity = useAppSelector(getCurrentCity);
   const dispatch = useAppDispatch();
 
   const cityTabClickHandler = ({ currentTarget }: React.MouseEvent<HTMLElement>) => {
     dispatch(changeCity({city: currentTarget.innerText}));
     dispatch(updateOffers());
-
   };
 
   return (
@@ -24,8 +23,7 @@ function CitiesList(): JSX.Element {
               <a className={classNames({
                 'locations__item-link tabs__item': true,
                 'tabs__item--active' : city === currentCity})}
-              href="#" data-city={city}
-              onClick={cityTabClickHandler}
+              href="#" onClick={cityTabClickHandler}
               >
                 <span>{city}</span>
               </a>
@@ -34,6 +32,8 @@ function CitiesList(): JSX.Element {
       </ul>
     </section>
   );
-}
+};
+
+const CitiesList = memo(CitiesListTemplate);
 
 export default CitiesList;

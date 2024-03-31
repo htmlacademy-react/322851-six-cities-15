@@ -7,22 +7,18 @@ import OfferPage from '../../pages/offer-page/offer-page';
 import PrivateRoute from '../private-route/private-route';
 import Page404 from '../../pages/page-404/page-404';
 import { HelmetProvider } from 'react-helmet-async';
-import { Offers } from '../../types/offers';
 import Layout from '../layout/layout';
 import { useAppSelector } from '../../hooks/use-app-dispatch';
 import Loader from '../loader/loader';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
+import { getErrorStatus, getLoadingStatus } from '../../store/main-process/selectors';
+import { ErrorScreen } from '../error-screen/error-screen';
 
 
-type AppProps = {
-  offers: Offers;
-}
-
-function App({offers}: AppProps): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
-  const isLoading = useAppSelector((state) => state.isLoading);
+function App(): JSX.Element {
+  const isLoading = useAppSelector(getLoadingStatus);
+  const isError = useAppSelector(getErrorStatus);
 
   if (isLoading) {
     return (
@@ -31,6 +27,14 @@ function App({offers}: AppProps): JSX.Element {
       </HelmetProvider>
     );
   }
+
+  if (isError) {
+    return (
+      <ErrorScreen />
+    );
+  }
+
+
   return (
     <HelmetProvider>
       <HistoryRouter history={browserHistory}>
@@ -48,8 +52,8 @@ function App({offers}: AppProps): JSX.Element {
             <Route
               path={AppRoute.Favorites}
               element={
-                <PrivateRoute authorizationStatus={authorizationStatus}>
-                  <Favorites offers={favoriteOffers} />
+                <PrivateRoute>
+                  <Favorites />
                 </PrivateRoute>
               }
             />

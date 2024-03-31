@@ -45,7 +45,7 @@ const generateRandomIndex = (a: number, b: number) => {
   return () => {
     let currentIndex = getRandomInteger(a, b);
     if (indexNumbers.length === Math.floor(Math.max(a, b) + 1)) {
-      return '';
+      return false;
     }
     while (indexNumbers.includes(currentIndex)) {
       currentIndex = getRandomInteger(a, b);
@@ -63,18 +63,20 @@ const getRandomSubArray = <T>(arr: T[], count: number) => {
   const indexGenerator = generateRandomIndex(0, arr.length - 1);
   for (let i = 0; i < count; i++) {
     const index = indexGenerator();
-    if (index) {
+    if (index !== false) {
       newArray.push(arr[index]);
     }
   }
   return newArray;
 };
 
-const sortReviewsByDate = (reviews: Reviews | null) => {
+const sortReviewsByDate = (reviews: Reviews) => {
   if (reviews !== null && reviews.length > 1) {
     const newReviews = [...reviews];
     newReviews.sort((firstReview, secondReview) => dayjs(secondReview.date).valueOf() - dayjs(firstReview.date).valueOf());
-
+    if (newReviews.length > Setting.ReviewsShownCount) {
+      return newReviews.slice(0, Setting.ReviewsShownCount);
+    }
     return newReviews;
   }
   return reviews;

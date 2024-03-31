@@ -65,6 +65,13 @@ enum AuthorizationStatus {
   Unknown = 'UNKNOWN'
 }
 
+enum NameSpace {
+  OFFERS = 'OFFERS',
+  OFFER = 'OFFER',
+  USER = 'USER',
+  FAVORITES = 'FAVORITES'
+}
+
 export {
   Setting,
   AppRoute,
@@ -77,5 +84,6 @@ export {
   SortBy,
   AUTH_TOKEN_KEY_NAME,
   ApiRoute,
-  StatusCodeMapping
+  StatusCodeMapping,
+  NameSpace
 };

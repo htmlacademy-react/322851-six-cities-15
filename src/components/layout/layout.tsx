@@ -1,18 +1,21 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../consts';
+import { AppRoute } from '../../consts';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks/use-app-dispatch';
 import { logoutUser } from '../../store/thunk-actions';
+import { checkAuthentication } from '../../store/user-process/selectors';
+import { getFavoriteOffers } from '../../store/main-process/selectors';
+import { useFavoriteOffers } from '../../hooks/use-favorite-offers';
 
 function Layout(): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const offers = useAppSelector((state) => state.initialOffers);
-  const favoriteOffers = offers?.filter((offer) => offer.isFavorite);
-  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
+  const favoriteOffers = useAppSelector(getFavoriteOffers);
+  const isAuth = useAppSelector(checkAuthentication);
   const pathname = window.location.pathname as AppRoute;
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const isNotLogin = pathname !== AppRoute.Login;
+
+  useFavoriteOffers(favoriteOffers, isAuth);
 
   const loginClickHandler = (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault();
@@ -25,7 +28,13 @@ function Layout(): JSX.Element {
   };
 
   return (
-    <div className={classNames({'page': true, 'page--gray page--main': (pathname === AppRoute.Main), 'page--gray page--login': (pathname === AppRoute.Login)})}>
+    <div className={classNames({
+      'page': true,
+      'page--gray page--main': (pathname === AppRoute.Main),
+      'page--gray page--login': (pathname === AppRoute.Login),
+      'page--favorites-empty': (pathname === AppRoute.Favorites && favoriteOffers?.length === 0)
+    })}
+    >
       <header className="header">
         <div className="container">
           <div className="header__wrapper">

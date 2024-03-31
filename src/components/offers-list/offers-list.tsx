@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useCallback } from 'react';
 import { PlaceCardImageSize, PlaceCardClassNamePrefix } from '../../consts';
 import { Offer, Offers } from '../../types/offers';
 import PlaceCard from '../place-card/place-card';
@@ -9,20 +9,19 @@ type OffersListProps = {
   onActiveCardChange?: (id: string | null) => void;
 }
 
-function OffersList({offers, classNamePrefix, onActiveCardChange }: OffersListProps): JSX.Element {
+function OffersListTemplate({offers, classNamePrefix, onActiveCardChange }: OffersListProps): JSX.Element {
   const imageSize = (classNamePrefix === PlaceCardClassNamePrefix.Favorites) ? PlaceCardImageSize.SMALL : PlaceCardImageSize.LARGE;
 
-  const placeCardMouseEnterHandler = (id: string) => {
+  const placeCardMouseEnterHandler = useCallback((id: string) => {
     if (onActiveCardChange) {
       onActiveCardChange(id);
     }
-  };
-  const placeCardMouseLeaveHandler = () => {
+  }, [onActiveCardChange]);
+  const placeCardMouseLeaveHandler = useCallback(() => {
     if (onActiveCardChange) {
       onActiveCardChange(null);
     }
-
-  };
+  }, [onActiveCardChange]);
 
 
   return (
@@ -40,5 +39,7 @@ function OffersList({offers, classNamePrefix, onActiveCardChange }: OffersListPr
 
   );
 }
+
+const OffersList = memo(OffersListTemplate);
 
 export default OffersList;
