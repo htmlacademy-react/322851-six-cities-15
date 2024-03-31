@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { Icon, Marker, layerGroup } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import useMap from '../../hooks/use-map';
@@ -25,7 +25,7 @@ const currentCustomIcon = new Icon({
 });
 
 
-function Map({cityLocation, points, selectedPoint}: MapProps): JSX.Element {
+function MapTemplate({cityLocation, points, selectedPoint}: MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, cityLocation);
   const {pathname} = useLocation();
@@ -53,5 +53,8 @@ function Map({cityLocation, points, selectedPoint}: MapProps): JSX.Element {
     </div>
   );
 }
+
+const Map = memo(MapTemplate);
+
 
 export default Map;

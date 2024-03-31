@@ -52,9 +52,9 @@ const mainProcess = createSlice({
       })
       .addCase(toggleFavoriteStatus.fulfilled, (state, action) => {
         if (state.initialOffers) {
-          const filteredOffers = state.initialOffers.filter((offer) => offer.id !== action.payload.id);
-          state.initialOffers = [...filteredOffers, action.payload];
-          state.offers = sortAndFilterOffers(state.city, state.sortBy, [...filteredOffers, action.payload]);
+          const index = state.initialOffers.findIndex((offer) => offer.id === action.payload.id);
+          state.initialOffers = [...state.initialOffers.slice(0, index), action.payload, ...state.initialOffers.slice(index + 1)];
+          state.offers = sortAndFilterOffers(state.city, state.sortBy, state.initialOffers);
         }
         if (state.favoriteOffers) {
           state.favoriteOffers = (action.payload.isFavorite) ? [...state.favoriteOffers, action.payload] : [...state.favoriteOffers.filter((offer) => offer.id !== action.payload.id)];

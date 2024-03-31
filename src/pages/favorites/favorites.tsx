@@ -66,7 +66,6 @@ function Favorites(): JSX.Element {
 
                 })
               }
-
             </ul>
           </section>
         </div>

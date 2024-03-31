@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, memo, useEffect, useRef, useState } from 'react';
 import { Setting } from '../../consts';
 import { uploadNewReview } from '../../store/thunk-actions';
 import { store } from '../../store';
@@ -7,7 +7,7 @@ type ReviewFormProps = {
   offerId: string;
 }
 
-function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
+function ReviewFormTemplate({offerId}: ReviewFormProps): JSX.Element {
   const [submitButtonStatus, setSubmitButtonStatus] = useState(true);
   const [formDisableStatus, setFormDisableStatus] = useState(false);
   const form = useRef<HTMLFormElement>(null);
@@ -84,5 +84,7 @@ function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
     </form>
   );
 }
+
+const ReviewForm = memo(ReviewFormTemplate);
 
 export default ReviewForm;

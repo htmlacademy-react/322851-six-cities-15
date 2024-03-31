@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import OffersList from '../../components/offers-list/offers-list';
 import { PlaceCardClassNamePrefix } from '../../consts';
 import Map from '../../components/map/map';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import CitiesList from '../../components/cities-list/cities-list';
 import { useAppSelector } from '../../hooks/use-app-dispatch';
 import EmptyCardsList from '../../components/empty-cards-list/empty-cards-list';
@@ -17,7 +17,7 @@ function Main(): JSX.Element {
 
   const currentCity = useAppSelector(getCurrentCity);
 
-  const activeCardChangeHandler = (id: string | null) => setActiveCard(id);
+  const activeCardChangeHandler = useCallback((id: string | null) => setActiveCard(id), []);
 
   const points = (offers) ? offers.map((offer) => offer.location) : null;
   const selectedPoint = (activeCard) ? offers?.find((offer) => offer.id === activeCard)?.location : null;

@@ -2,11 +2,10 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../consts';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks/use-app-dispatch';
-import { logoutUser, uploadFavoriteOffers } from '../../store/thunk-actions';
+import { logoutUser } from '../../store/thunk-actions';
 import { checkAuthentication } from '../../store/user-process/selectors';
 import { getFavoriteOffers } from '../../store/main-process/selectors';
-import { useEffect } from 'react';
-import { store } from '../../store';
+import { useFavoriteOffers } from '../../hooks/use-favorite-offers';
 
 function Layout(): JSX.Element {
   const favoriteOffers = useAppSelector(getFavoriteOffers);
@@ -16,11 +15,7 @@ function Layout(): JSX.Element {
   const dispatch = useAppDispatch();
   const isNotLogin = pathname !== AppRoute.Login;
 
-  useEffect(() => {
-    if (!favoriteOffers && isAuth) {
-      store.dispatch(uploadFavoriteOffers());
-    }
-  });
+  useFavoriteOffers(favoriteOffers, isAuth);
 
   const loginClickHandler = (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault();

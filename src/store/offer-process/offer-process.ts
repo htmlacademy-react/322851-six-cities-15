@@ -41,6 +41,12 @@ const offerProcess = createSlice({
         if (state.currentOffer?.id === action.payload.id) {
           state.currentOffer = {...state.currentOffer, isFavorite: action.payload.isFavorite};
         }
+        if (state.nearbyOffers) {
+          const index = state.nearbyOffers.findIndex((offer) => offer.id === action.payload.id);
+          if (index > -1) {
+            state.nearbyOffers = [...state.nearbyOffers.slice(0, index), action.payload, ...state.nearbyOffers.slice(index + 1)];
+          }
+        }
       });
   },
 });

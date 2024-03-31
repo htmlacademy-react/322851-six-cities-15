@@ -1,12 +1,12 @@
 import classNames from 'classnames';
 import { SortBy } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks/use-app-dispatch';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { getSortBy } from '../../store/main-process/selectors';
 import { changeSortBy, updateOffers } from '../../store/main-process/main-process';
 
 
-function SortingForm(): JSX.Element {
+function SortingFormTemplate(): JSX.Element {
   const [ isFormOpened, setFormOpened ] = useState(false);
   const currentSortType = useAppSelector(getSortBy);
   const dispatch = useAppDispatch();
@@ -46,5 +46,7 @@ function SortingForm(): JSX.Element {
     </form>
   );
 }
+
+const SortingForm = memo(SortingFormTemplate);
 
 export default SortingForm;

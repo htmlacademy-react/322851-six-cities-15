@@ -150,7 +150,7 @@ function OfferPage(): JSX.Element {
           </div>
         </div>
         <section className="offer__map map">
-          {points && <Map cityLocation={currentOffer.city.location} points={points.concat([currentOffer.location])} selectedPoint={currentOffer.location} />}
+          {points && <Map cityLocation={currentOffer.city.location} points={[...points, currentOffer.location]} selectedPoint={currentOffer.location} />}
         </section>
       </section>
       <div className="container">

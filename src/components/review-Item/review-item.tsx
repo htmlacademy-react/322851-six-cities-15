@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { DateFormat } from '../../consts';
 import { Review } from '../../types/reviews';
 import { calculateRatingWidth, parseDate } from '../../utils';
@@ -6,7 +7,7 @@ type ReviewItemProps = {
   review: Review;
 }
 
-function ReviewItem({review}: ReviewItemProps): JSX.Element {
+function ReviewItemTemplate({review}: ReviewItemProps): JSX.Element {
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
@@ -30,5 +31,7 @@ function ReviewItem({review}: ReviewItemProps): JSX.Element {
     </li>
   );
 }
+
+const ReviewItem = memo(ReviewItemTemplate);
 
 export default ReviewItem;

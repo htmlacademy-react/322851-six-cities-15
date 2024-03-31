@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import ReviewItem from '../review-Item/review-item';
 import { store } from '../../store';
 import { uploadReviews } from '../../store/thunk-actions';
@@ -11,7 +11,7 @@ type ReviewListProps = {
   offerId: string;
 }
 
-function ReviewList({ offerId }: ReviewListProps): JSX.Element {
+function ReviewListTemplate({ offerId }: ReviewListProps): JSX.Element {
   const reviews = useAppSelector(getReviews);
 
   useEffect(() => {
@@ -27,5 +27,8 @@ function ReviewList({ offerId }: ReviewListProps): JSX.Element {
     </React.Fragment>
   );
 }
+
+const ReviewList = memo(ReviewListTemplate);
+
 
 export default ReviewList;

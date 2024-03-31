@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/use-app-dispatch';
 import { toggleFavoriteStatus } from '../../store/thunk-actions';
 import { AppRoute } from '../../consts';
 import { checkAuthentication } from '../../store/user-process/selectors';
+import { memo } from 'react';
 
 type PlaceCardProps = {
     offer: Offer;
@@ -14,7 +15,7 @@ type PlaceCardProps = {
     onMouseLeave: () => void;
 }
 
-function PlaceCard({ offer, classNamePrefix, imageSize, onMouseEnter, onMouseLeave }: PlaceCardProps): JSX.Element {
+function PlaceCardTemplate({ offer, classNamePrefix, imageSize, onMouseEnter, onMouseLeave }: PlaceCardProps): JSX.Element {
   const isFavorite = (offer.isFavorite) ? 'place-card__bookmark-button--active' : '';
   const isAuth = useAppSelector(checkAuthentication);
   const dispatch = useAppDispatch();
@@ -68,5 +69,11 @@ function PlaceCard({ offer, classNamePrefix, imageSize, onMouseEnter, onMouseLea
     </article>
   );
 }
+
+const PlaceCard = memo(
+  PlaceCardTemplate,
+  (prevProps, nextProps) => (
+    prevProps.offer.id === nextProps.offer.id && prevProps.offer.isFavorite === nextProps.offer.isFavorite
+  ));
 
 export default PlaceCard;
