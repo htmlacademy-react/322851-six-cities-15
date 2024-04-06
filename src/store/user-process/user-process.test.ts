@@ -6,12 +6,13 @@ import { userProcess } from './user-process';
 describe('User-process slice', () => {
 
   const initialState: UserProcess = {
-    authorizationStatus: AuthorizationStatus.Unknown
+    authorizationStatus: AuthorizationStatus.Unknown,
+    user: null
   };
 
   it('Should return initial state with empty action', () => {
     const emptyAction = {type: ''};
-    const state = {authorizationStatus: AuthorizationStatus.Auth};
+    const state = {authorizationStatus: AuthorizationStatus.Auth, user: null};
 
     const result = userProcess.reducer(state, emptyAction);
 
