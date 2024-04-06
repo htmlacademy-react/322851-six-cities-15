@@ -2036,4 +2036,27 @@ text-decoration: underline;
   transform: translate(-50%, -50%);
 
 }
+
+.cities__right-section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.page__main--index-empty .cities__right-section {
+  background-image: url(../img/no-places@2x.png);
+  background-size: auto 119%;
+  background-repeat: no-repeat;
+  background-position: right 100%;
+}
+
+@media (max-height: 780px) {
+.page__main--index-empty .cities__right-section {
+    background-position: right center;
+    background-size: 100% auto;
+}
+}
 /*# sourceMappingURL=main.css.map */

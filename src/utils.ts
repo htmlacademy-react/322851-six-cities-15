@@ -2,6 +2,7 @@ import { Setting, SortBy } from './consts';
 import dayjs from 'dayjs';
 import { Offers } from './types/offers';
 import { Reviews } from './types/reviews';
+import { Action } from 'redux';
 
 const calculateRatingWidth = (rating: number): string => `${ Math.round(rating) * 100 / Setting.MaxRating}%`;
 
@@ -82,6 +83,8 @@ const sortReviewsByDate = (reviews: Reviews) => {
   return reviews;
 };
 
+const extactActionsType = (actions: Action<string>[]) => (actions.map(({type}) => type));
+
 
 export {
   calculateRatingWidth,
@@ -89,5 +92,7 @@ export {
   parseDate,
   sortAndFilterOffers,
   getRandomSubArray,
-  sortReviewsByDate
+  sortReviewsByDate,
+  extactActionsType,
+  getRandomInteger
 };

@@ -1,5 +1,5 @@
 import React, { ChangeEvent, memo, useEffect, useRef, useState } from 'react';
-import { Setting } from '../../consts';
+import { RATING_TITLES, Setting } from '../../consts';
 import { uploadNewReview } from '../../store/thunk-actions';
 import { store } from '../../store';
 
@@ -18,24 +18,26 @@ function ReviewFormTemplate({offerId}: ReviewFormProps): JSX.Element {
   });
 
   useEffect(() => {
-    if (formData.rating > 0 && formData.comment.length > 49) {
+    if (formData.rating > 0 && formData.comment.length > 49 && formData.comment.length < 301) {
       setSubmitButtonStatus(false);
+    } else {
+      setSubmitButtonStatus(true);
     }
   }, [formData]);
 
-  const raitingChangeHandler = ({target}: ChangeEvent<HTMLInputElement>) => {
+  const handleRaitingChange = ({target}: ChangeEvent<HTMLInputElement>) => {
     if (target.tagName === 'INPUT') {
       setFormData({...formData, rating: parseInt(target.value, 10)});
     }
   };
 
-  const reviewChangeHandler = ({target}: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleReviewChange = ({target}: ChangeEvent<HTMLTextAreaElement>) => {
     if (target.tagName === 'TEXTAREA') {
       setFormData({...formData, comment: target.value});
     }
   };
 
-  const disableFormHandler = (status: boolean) => {
+  const handleDisableForm = (status: boolean) => {
     if (status) {
       setFormData({
         rating: 0,
@@ -49,23 +51,23 @@ function ReviewFormTemplate({offerId}: ReviewFormProps): JSX.Element {
     setFormDisableStatus(false);
   };
 
-  const formSubmitHandler = (evt: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     setSubmitButtonStatus(true);
     setFormDisableStatus(true);
-    store.dispatch(uploadNewReview({...formData, disableForm: (status: boolean) => disableFormHandler(status)}));
+    store.dispatch(uploadNewReview({...formData, disableForm: (status: boolean) => handleDisableForm(status)}));
 
   };
 
   return (
-    <form ref={form} className="reviews__form form" action="#" method="post" onSubmit={formSubmitHandler}>
+    <form ref={form} className="reviews__form form" action="#" method="post" onSubmit={handleFormSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
-      <div className="reviews__rating-form form__rating" onChange={raitingChangeHandler}>
+      <div className="reviews__rating-form form__rating" onChange={handleRaitingChange}>
         {
-          Array.from({ length: Setting.MaxRating }, (_, i: number) => i + 1).reverse().map((item) => (
+          Array.from({ length: Setting.MaxRating }, (_, i: number) => i + 1).reverse().map((item, index) => (
             <React.Fragment key={`raiting-${item}`}>
               <input className="form__rating-input visually-hidden" name="rating" value={ item } id={`${ item }-stars`} type="radio" disabled={formDisableStatus} />
-              <label htmlFor={(formDisableStatus) ? '' : `${ item }-stars`} className="reviews__rating-label form__rating-label" title="perfect">
+              <label htmlFor={(formDisableStatus) ? '' : `${ item }-stars`} className="reviews__rating-label form__rating-label" title={RATING_TITLES[index]}>
                 <svg className="form__star-image" width="37" height="33">
                   <use xlinkHref="#icon-star"></use>
                 </svg>
@@ -74,7 +76,7 @@ function ReviewFormTemplate({offerId}: ReviewFormProps): JSX.Element {
           )
         }
       </div>
-      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" onChange={reviewChangeHandler} disabled={formDisableStatus}></textarea>
+      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" onChange={handleReviewChange} disabled={formDisableStatus}></textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
         To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.

@@ -1,5 +1,5 @@
 import { CITIES } from '../../consts';
-import { changeCity, updateOffers } from '../../store/main-process/main-process';
+import { changeCity } from '../../store/main-process/main-process';
 import { useAppDispatch, useAppSelector } from '../../hooks/use-app-dispatch';
 import classNames from 'classnames';
 import { getCurrentCity } from '../../store/main-process/selectors';
@@ -9,9 +9,8 @@ const CitiesListTemplate = function CitiesList(): JSX.Element {
   const currentCity = useAppSelector(getCurrentCity);
   const dispatch = useAppDispatch();
 
-  const cityTabClickHandler = ({ currentTarget }: React.MouseEvent<HTMLElement>) => {
+  const handleCityTabClick = ({ currentTarget }: React.MouseEvent<HTMLElement>) => {
     dispatch(changeCity({city: currentTarget.innerText}));
-    dispatch(updateOffers());
   };
 
   return (
@@ -23,7 +22,7 @@ const CitiesListTemplate = function CitiesList(): JSX.Element {
               <a className={classNames({
                 'locations__item-link tabs__item': true,
                 'tabs__item--active' : city === currentCity})}
-              href="#" onClick={cityTabClickHandler}
+              href="#" onClick={handleCityTabClick}
               >
                 <span>{city}</span>
               </a>

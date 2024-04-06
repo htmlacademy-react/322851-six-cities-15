@@ -3,12 +3,14 @@ import { AppRoute } from '../../consts';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks/use-app-dispatch';
 import { logoutUser } from '../../store/thunk-actions';
-import { checkAuthentication } from '../../store/user-process/selectors';
-import { getFavoriteOffers } from '../../store/main-process/selectors';
+import { checkAuthentication, getUserInfo } from '../../store/user-process/selectors';
+import { getFavoriteOffers, getOffers } from '../../store/main-process/selectors';
 import { useFavoriteOffers } from '../../hooks/use-favorite-offers';
 
 function Layout(): JSX.Element {
   const favoriteOffers = useAppSelector(getFavoriteOffers);
+  const offers = useAppSelector(getOffers);
+  const user = useAppSelector(getUserInfo);
   const isAuth = useAppSelector(checkAuthentication);
   const pathname = window.location.pathname as AppRoute;
   const navigate = useNavigate();
@@ -17,7 +19,7 @@ function Layout(): JSX.Element {
 
   useFavoriteOffers(favoriteOffers, isAuth);
 
-  const loginClickHandler = (evt: React.MouseEvent<HTMLElement>) => {
+  const handleLoginClick = (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault();
     if (isAuth) {
       dispatch(logoutUser());
@@ -32,7 +34,8 @@ function Layout(): JSX.Element {
       'page': true,
       'page--gray page--main': (pathname === AppRoute.Main),
       'page--gray page--login': (pathname === AppRoute.Login),
-      'page--favorites-empty': (pathname === AppRoute.Favorites && favoriteOffers?.length === 0)
+      'page--favorites-empty': (pathname === AppRoute.Favorites && favoriteOffers?.length === 0),
+      'page__main--index-empty': (pathname === AppRoute.Main && offers?.length === 0)
     })}
     >
       <header className="header">
@@ -51,13 +54,18 @@ function Layout(): JSX.Element {
                 <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites} onClick={() => navigate(AppRoute.Favorites)}>
                   <div className="header__avatar-wrapper user__avatar-wrapper">
                   </div>
-                  <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                  <span className="header__user-name user__name">{user?.email}</span>
                   <span className="header__favorite-count">{(favoriteOffers) ? favoriteOffers.length : ''}</span>
                 </Link>
               </li>}
                 <li className="header__nav-item">
-                  <Link className="header__nav-link" to={(isAuth) ? AppRoute.Login : AppRoute.Main} onClick={loginClickHandler}>
-                    <span className="header__signout">{(isAuth) ? 'Log Out' : 'Login'}</span>
+                  <Link className="header__nav-link" to={(isAuth) ? AppRoute.Login : AppRoute.Main} onClick={handleLoginClick}>
+                    <span className={classNames({
+                      'header__login' : !isAuth,
+                      'header__signout' : isAuth
+                    })}
+                    >{(isAuth) ? 'Sign Out' : 'Sign in'}
+                    </span>
                   </Link>
                 </li>
               </ul>

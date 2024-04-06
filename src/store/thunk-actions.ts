@@ -7,20 +7,23 @@ import { redirectToRoute } from './actions';
 import { dropToken, saveToken } from '../services/token';
 import { AuthData, UserData } from '../types/auth';
 import { Review, Reviews } from '../types/reviews';
+import { toast } from 'react-toastify';
 
 const uploadOffers = createAsyncThunk<Offers, undefined, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('uploadOffers', async (_arg, {extra: api}) => {
   const { data } = await api.get<Offers>(ApiRoute.Offers);
   return data;
 });
 
-const checkAuthorization = createAsyncThunk<void, undefined, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('checkAuthorization', async (_arg, {extra: api}) => {
-  await api.get(ApiRoute.Login);
+const checkAuthorization = createAsyncThunk<UserData, undefined, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('checkAuthorization', async (_arg, {extra: api}) => {
+  const { data } = await api.get<UserData>(ApiRoute.Login);
+  return data;
 });
 
-const loginUser = createAsyncThunk<void, AuthData, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('loginUser', async ({ email, password }, {dispatch, extra: api}) => {
-  const {data: { token } } = await api.post<UserData>(ApiRoute.Login, {email, password});
-  saveToken(token);
+const loginUser = createAsyncThunk<UserData, AuthData, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('loginUser', async ({ email, password }, {dispatch, extra: api}) => {
+  const { data } = await api.post<UserData>(ApiRoute.Login, {email, password});
+  saveToken(data.token);
   dispatch(redirectToRoute(AppRoute.Main));
+  return data;
 });
 
 const logoutUser = createAsyncThunk<void, undefined, {dispatch: Dispatch; state: State; extra: AxiosInstance}>('logoutUser', async (_arg, {extra: api}) => {
@@ -55,6 +58,7 @@ const uploadNewReview = createAsyncThunk<Review | undefined, {offerId: string; c
     disableForm(true);
     return data;
   } catch {
+    toast.warn('Возникла ошибка при отправке отзыва');
     disableForm(false);
   }
 });

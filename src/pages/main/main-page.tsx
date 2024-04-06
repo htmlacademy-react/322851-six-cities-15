@@ -42,7 +42,7 @@ function Main(): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in {currentCity}</b>
+              <b className="places__found">{offers.length} {(offers.length > 1) ? 'places' : 'place'} to stay in {currentCity}</b>
               <SortingForm />
               <div className="cities__places-list places__list tabs__content">
                 <OffersList offers={offers} classNamePrefix={PlaceCardClassNamePrefix.Main} onActiveCardChange={activeCardChangeHandler} />

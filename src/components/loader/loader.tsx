@@ -1,11 +1,9 @@
-import { Helmet } from 'react-helmet-async';
+import './loader.css';
 
 function Loader(): JSX.Element {
   return (
     <div className="lds-roller">
-      <Helmet>
-        <link rel="stylesheet" href="css/loader.css" />
-      </Helmet>
+      Loading ...
       <div></div>
       <div></div>
       <div></div>
