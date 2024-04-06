@@ -1,19 +1,38 @@
 import { FormEvent, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { useAppDispatch, useAppSelector } from '../../hooks/use-app-dispatch';
 import { loginUser } from '../../store/thunk-actions';
+import { Link, useNavigate } from 'react-router-dom';
+import { AppRoute, CITIES } from '../../consts';
+import { changeCity } from '../../store/main-process/main-process';
+import { getRandomInteger } from '../../utils';
+import { checkAuthentication } from '../../store/user-process/selectors';
 
 function Login(): JSX.Element {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useAppDispatch();
+  const currentCity = CITIES[getRandomInteger(0, CITIES.length - 1)];
+  const passwordTest = /(?=.*\d)(?=.*[a-z])/i;
+  const isAuth = useAppSelector(checkAuthentication);
+  const navigate = useNavigate();
+
+  const handleCityButtonClick = (evt: React.MouseEvent<HTMLElement>) => {
+    evt.preventDefault();
+    dispatch(changeCity({city: currentCity}));
+    navigate(AppRoute.Main);
+  };
 
   const formSubmitHandler = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if (emailRef.current !== null && passwordRef.current !== null) {
+    if (emailRef.current !== null && passwordRef.current !== null && passwordTest.test(passwordRef.current.value)) {
       dispatch(loginUser({email: emailRef.current.value, password: passwordRef.current.value}));
     }
   };
+
+  if (isAuth) {
+    navigate(AppRoute.Main);
+  }
 
   return (
     <main className="page__main page__main--login">
@@ -37,9 +56,9 @@ function Login(): JSX.Element {
         </section>
         <section className="locations locations--login locations--current">
           <div className="locations__item">
-            <a className="locations__item-link" href="#">
-              <span>Amsterdam</span>
-            </a>
+            <Link className="locations__item-link" to={AppRoute.Main} onClick={handleCityButtonClick}>
+              <span>{currentCity}</span>
+            </Link>
           </div>
         </section>
       </div>

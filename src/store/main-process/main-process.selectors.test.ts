@@ -2,7 +2,7 @@ import { NameSpace, SortBy } from '../../consts';
 import offers from '../../mocks/offers';
 import { getCurrentCity, getErrorStatus, getFavoriteOffers, getInitialOffers, getLoadingStatus, getSortBy } from './selectors';
 
-describe('Should return right values from the Offers namespace of the state', () => {
+describe('Main-process selectors', () => {
   const state = {
     [NameSpace.OFFERS] : {
       city: 'Paris',

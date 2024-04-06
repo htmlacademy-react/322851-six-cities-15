@@ -3,7 +3,7 @@ import { SortBy } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks/use-app-dispatch';
 import { memo, useState } from 'react';
 import { getSortBy } from '../../store/main-process/selectors';
-import { changeSortBy, updateOffers } from '../../store/main-process/main-process';
+import { changeSortBy } from '../../store/main-process/main-process';
 
 
 function SortingFormTemplate(): JSX.Element {
@@ -11,9 +11,8 @@ function SortingFormTemplate(): JSX.Element {
   const currentSortType = useAppSelector(getSortBy);
   const dispatch = useAppDispatch();
 
-  const sortByClickHandler = ({ currentTarget }: React.MouseEvent<HTMLElement>) => {
+  const handleSortByClick = ({ currentTarget }: React.MouseEvent<HTMLElement>) => {
     dispatch(changeSortBy({sortBy: currentTarget.innerHTML as SortBy}));
-    dispatch(updateOffers());
     setFormOpened(false);
   };
 
@@ -37,7 +36,7 @@ function SortingFormTemplate(): JSX.Element {
               'places__option': true,
               'places__option--active': currentSortType === sortValue})}
             tabIndex={index}
-            onClick={sortByClickHandler}
+            onClick={handleSortByClick}
           >{ sortValue }
           </li>
         )

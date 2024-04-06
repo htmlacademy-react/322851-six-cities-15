@@ -5,7 +5,7 @@ import { calculateRatingWidth, capitalizeWord } from '../../utils';
 import ReviewForm from '../../components/review-form/review-form';
 import ReviewList from '../../components/review-list/review-list';
 import Map from '../../components/map/map';
-import { AppRoute, PlaceCardClassNamePrefix } from '../../consts';
+import { AppRoute, PlaceCardClassNamePrefix, Setting } from '../../consts';
 import OffersList from '../../components/offers-list/offers-list';
 import { useEffect, useState } from 'react';
 import { toggleFavoriteStatus, uploadNearbyOffers, uploadOfferById } from '../../store/thunk-actions';
@@ -63,7 +63,7 @@ function OfferPage(): JSX.Element {
       <section className="offer">
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
-            { currentOffer.images.map((imageSrc) => (
+            { currentOffer.images.slice(0, Setting.OfferImagesCount).map((imageSrc) => (
               <div className="offer__image-wrapper" key={imageSrc}>
                 <img className="offer__image" src={imageSrc} alt="Photo studio" />
               </div>
@@ -126,8 +126,11 @@ function OfferPage(): JSX.Element {
             <div className="offer__host">
               <h2 className="offer__host-title">Meet the host</h2>
               <div className="offer__host-user user">
-                <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
-                  <img className="offer__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar" />
+                <div className={classNames({
+                  'offer__avatar-wrapper user__avatar-wrapper': true,
+                  'offer__avatar-wrapper--pro': currentOffer.host.isPro})}
+                >
+                  <img className="offer__avatar user__avatar" src={currentOffer.host.avatarUrl} width="74" height="74" alt="Host avatar" />
                 </div>
                 <span className="offer__user-name">
                   {currentOffer.host.name}

@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 const DEFAULT_CITY = 'Paris';
 const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
+const RATING_TITLES = ['perfect', 'good', 'not bad', 'badly', 'terribly'];
 
 enum DateFormat {
   ReviewField = 'MMMM YYYY',
@@ -25,6 +26,7 @@ const StatusCodeMapping: Record<number, boolean> = {
 
 const Setting = {
   OffersCount: 5,
+  OfferImagesCount: 6,
   MaxRating: 5,
   NearbyOffersCount: 3,
   ReviewsShownCount: 10,
@@ -68,8 +70,7 @@ enum AuthorizationStatus {
 enum NameSpace {
   OFFERS = 'OFFERS',
   OFFER = 'OFFER',
-  USER = 'USER',
-  FAVORITES = 'FAVORITES'
+  USER = 'USER'
 }
 
 export {
@@ -85,5 +86,6 @@ export {
   AUTH_TOKEN_KEY_NAME,
   ApiRoute,
   StatusCodeMapping,
-  NameSpace
+  NameSpace,
+  RATING_TITLES
 };

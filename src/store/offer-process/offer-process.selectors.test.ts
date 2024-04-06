@@ -4,7 +4,7 @@ import offers from '../../mocks/offers';
 import reviews from '../../mocks/reviews';
 import { getCurrentOffer, getNearbyOffers, getReviews } from './selectors';
 
-describe('Should return right values from the Offer namespace of the state', () => {
+describe('Offer-process selectors', () => {
   const state = {
     [NameSpace.OFFER]: {
       nearbyOffers: offers,
@@ -36,6 +36,5 @@ describe('Should return right values from the Offer namespace of the state', () 
 
     expect(result).toEqual(reviewsList);
   });
-
 
 });

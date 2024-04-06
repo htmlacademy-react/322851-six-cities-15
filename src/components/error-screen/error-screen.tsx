@@ -10,7 +10,8 @@ function ErrorScreen(): JSX.Element {
       <button type='button' onClick={() => {
         dispatch(uploadOffers());
       }}
-      >Попробовать ещё раз
+      >
+      Попробовать ещё раз
       </button>
 
     </div>

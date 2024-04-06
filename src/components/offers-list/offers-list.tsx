@@ -12,12 +12,13 @@ type OffersListProps = {
 function OffersListTemplate({offers, classNamePrefix, onActiveCardChange }: OffersListProps): JSX.Element {
   const imageSize = (classNamePrefix === PlaceCardClassNamePrefix.Favorites) ? PlaceCardImageSize.SMALL : PlaceCardImageSize.LARGE;
 
-  const placeCardMouseEnterHandler = useCallback((id: string) => {
+  const handlePlaceCardMouseEnter = useCallback((id: string) => {
     if (onActiveCardChange) {
       onActiveCardChange(id);
     }
   }, [onActiveCardChange]);
-  const placeCardMouseLeaveHandler = useCallback(() => {
+
+  const handlePlaceCardMouseLeave = useCallback(() => {
     if (onActiveCardChange) {
       onActiveCardChange(null);
     }
@@ -32,8 +33,8 @@ function OffersListTemplate({offers, classNamePrefix, onActiveCardChange }: Offe
           offer={offer}
           classNamePrefix={classNamePrefix}
           imageSize={imageSize}
-          onMouseEnter={placeCardMouseEnterHandler}
-          onMouseLeave={placeCardMouseLeaveHandler}
+          onMouseEnter={handlePlaceCardMouseEnter}
+          onMouseLeave={handlePlaceCardMouseLeave}
         />))}
     </React.Fragment>
 
