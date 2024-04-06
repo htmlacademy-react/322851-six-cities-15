@@ -4,7 +4,8 @@ import { checkAuthentication, getAuthorizationStatus } from './selectors';
 describe('User-process selectors', () => {
   const state = {
     [NameSpace.USER]: {
-      authorizationStatus: AuthorizationStatus.Auth
+      authorizationStatus: AuthorizationStatus.Auth,
+      user: null
     }
   };
 
