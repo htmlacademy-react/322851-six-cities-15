@@ -8,13 +8,12 @@ import { redirectToRoute } from '../actions';
 
 vi.mock('../../browser-history', () => ({
   default: {
-    location: {pathname: ''},
+    location: { pathname: '' },
     push(path: string) {
       this.location.pathname = path;
-    }
-  }
+    },
+  },
 }));
-
 
 describe('Redirect middleware', () => {
   let store: MockStore;
@@ -38,11 +37,10 @@ describe('Redirect middleware', () => {
   });
 
   it('Should not redirect to /login with empty action', () => {
-    const emptyAction = {type: '', payload: AppRoute.Login};
+    const emptyAction = { type: '', payload: AppRoute.Login };
 
     store.dispatch(emptyAction);
 
     expect(browserHistory.location.pathname).not.toBe(AppRoute.Login);
   });
-
 });

@@ -14,8 +14,4 @@ const dropToken = () => {
   localStorage.removeItem(AUTH_TOKEN_KEY_NAME);
 };
 
-export {
-  getToken,
-  saveToken,
-  dropToken
-};
+export { getToken, saveToken, dropToken };

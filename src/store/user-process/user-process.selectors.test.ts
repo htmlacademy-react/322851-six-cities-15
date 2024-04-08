@@ -5,8 +5,8 @@ describe('User-process selectors', () => {
   const state = {
     [NameSpace.USER]: {
       authorizationStatus: AuthorizationStatus.Auth,
-      user: null
-    }
+      user: null,
+    },
   };
 
   it('Should return  authorizationStatus from state', () => {
@@ -22,5 +22,4 @@ describe('User-process selectors', () => {
 
     expect(result).toBe(true);
   });
-
 });

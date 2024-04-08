@@ -4,11 +4,10 @@ import { getToken } from './token';
 import { DetailMessageType } from '../types/auth';
 import { toast } from 'react-toastify';
 
-
 const createAPI = (): AxiosInstance => {
   const api = axios.create({
     baseURL: Setting.BaseUrl,
-    timeout: Setting.ApiTimeout
+    timeout: Setting.ApiTimeout,
   });
 
   api.interceptors.request.use((config) => {
@@ -19,17 +18,20 @@ const createAPI = (): AxiosInstance => {
     }
 
     return config;
-
   });
 
   api.interceptors.response.use(
     (response) => response,
     (error: AxiosError<DetailMessageType>) => {
       if (error.response && StatusCodeMapping[error.response.status]) {
-        toast.warn(error.response.data.message, {position: 'top-center', theme: 'colored' });
+        toast.warn(error.response.data.message, {
+          position: 'top-center',
+          theme: 'colored',
+        });
       }
       throw error;
-    });
+    },
+  );
 
   return api;
 };

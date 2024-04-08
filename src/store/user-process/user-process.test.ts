@@ -1,18 +1,17 @@
 import { AuthorizationStatus } from '../../consts';
 import { UserProcess } from '../../types/state';
-import { checkAuthorization, loginUser, logoutUser } from '../thunk-actions';
+import { checkAuthorization, loginUser, logoutUser } from './thunk-actions';
 import { userProcess } from './user-process';
 
 describe('User-process slice', () => {
-
   const initialState: UserProcess = {
     authorizationStatus: AuthorizationStatus.Unknown,
-    user: null
+    user: null,
   };
 
   it('Should return initial state with empty action', () => {
-    const emptyAction = {type: ''};
-    const state = {authorizationStatus: AuthorizationStatus.Auth, user: null};
+    const emptyAction = { type: '' };
+    const state = { authorizationStatus: AuthorizationStatus.Auth, user: null };
 
     const result = userProcess.reducer(state, emptyAction);
 
@@ -20,7 +19,7 @@ describe('User-process slice', () => {
   });
 
   it('Should return initial state with empty action and undefined state', () => {
-    const emptyAction = {type: ''};
+    const emptyAction = { type: '' };
 
     const result = userProcess.reducer(undefined, emptyAction);
 
@@ -62,5 +61,4 @@ describe('User-process slice', () => {
 
     expect(result.authorizationStatus).toBe(initialState.authorizationStatus);
   });
-
 });

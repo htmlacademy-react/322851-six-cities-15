@@ -1,19 +1,19 @@
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { uploadOffers } from '../../store/thunk-actions';
-
+import { uploadOffers } from '../../store/main-process/thunk-actions';
 
 function ErrorScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   return (
-    <div className='error-screen'>
+    <div className="error-screen">
       <p>При загрузке сайта произошла ошибка</p>
-      <button type='button' onClick={() => {
-        dispatch(uploadOffers());
-      }}
+      <button
+        type="button"
+        onClick={() => {
+          dispatch(uploadOffers());
+        }}
       >
-      Попробовать ещё раз
+        Попробовать ещё раз
       </button>
-
     </div>
   );
 }

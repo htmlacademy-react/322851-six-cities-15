@@ -4,35 +4,46 @@ import { Offers } from './types/offers';
 import { Reviews } from './types/reviews';
 import { Action } from 'redux';
 
-const calculateRatingWidth = (rating: number): string => `${ Math.round(rating) * 100 / Setting.MaxRating}%`;
+const calculateRatingWidth = (rating: number): string =>
+  `${(Math.round(rating) * 100) / Setting.MaxRating}%`;
 
 const capitalizeWord = (word: string): string => {
-  const firstLetter = word.substring(0,1);
+  const firstLetter = word.substring(0, 1);
   const remainingWord = word.substring(1);
   return `${firstLetter.toUpperCase()}${remainingWord}`;
 };
 
-const parseDate = (date: string, dateFormat: string): string => dayjs(date).format(dateFormat);
+const parseDate = (date: string, dateFormat: string): string =>
+  dayjs(date).format(dateFormat);
 
-const sortAndFilterOffers = (city: string, sortType: SortBy, initialOffers: Offers) => {
+const sortAndFilterOffers = (
+  city: string,
+  sortType: SortBy,
+  initialOffers: Offers,
+) => {
   const offers = [...initialOffers].filter((offer) => offer.city.name === city);
   switch (sortType) {
     case SortBy.Popular:
       break;
     case SortBy.PriceDown:
-      offers.sort((firstOffer, secondOffer) => secondOffer.price - firstOffer.price);
+      offers.sort(
+        (firstOffer, secondOffer) => secondOffer.price - firstOffer.price,
+      );
       break;
     case SortBy.PriceUp:
-      offers.sort((firstOffer, secondOffer) => firstOffer.price - secondOffer.price);
+      offers.sort(
+        (firstOffer, secondOffer) => firstOffer.price - secondOffer.price,
+      );
       break;
     case SortBy.Rating:
-      offers.sort((firstOffer, secondOffer) => secondOffer.rating - firstOffer.rating);
+      offers.sort(
+        (firstOffer, secondOffer) => secondOffer.rating - firstOffer.rating,
+      );
       break;
   }
 
   return offers;
 };
-
 
 const getRandomInteger = (a: number, b: number) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -74,7 +85,10 @@ const getRandomSubArray = <T>(arr: T[], count: number) => {
 const sortReviewsByDate = (reviews: Reviews) => {
   if (reviews !== null && reviews.length > 1) {
     const newReviews = [...reviews];
-    newReviews.sort((firstReview, secondReview) => dayjs(secondReview.date).valueOf() - dayjs(firstReview.date).valueOf());
+    newReviews.sort(
+      (firstReview, secondReview) =>
+        dayjs(secondReview.date).valueOf() - dayjs(firstReview.date).valueOf(),
+    );
     if (newReviews.length > Setting.ReviewsShownCount) {
       return newReviews.slice(0, Setting.ReviewsShownCount);
     }
@@ -83,8 +97,8 @@ const sortReviewsByDate = (reviews: Reviews) => {
   return reviews;
 };
 
-const extactActionsType = (actions: Action<string>[]) => (actions.map(({type}) => type));
-
+const extactActionsType = (actions: Action<string>[]) =>
+  actions.map(({ type }) => type);
 
 export {
   calculateRatingWidth,
@@ -94,5 +108,5 @@ export {
   getRandomSubArray,
   sortReviewsByDate,
   extactActionsType,
-  getRandomInteger
+  getRandomInteger,
 };

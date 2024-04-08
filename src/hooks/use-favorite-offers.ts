@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { store } from '../store';
-import { uploadFavoriteOffers } from '../store/thunk-actions';
 import { Offers } from '../types/offers';
+import { uploadFavoriteOffers } from '../store/main-process/thunk-actions';
 
 const useFavoriteOffers = (favoriteOffers: Offers | null, isAuth: boolean) => {
   useEffect(() => {

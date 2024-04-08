@@ -5,7 +5,4 @@ const useAppDispatch = () => useDispatch<Dispatch>();
 
 const useAppSelector: TypedUseSelectorHook<State> = useSelector;
 
-export {
-  useAppDispatch,
-  useAppSelector
-};
+export { useAppDispatch, useAppSelector };

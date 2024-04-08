@@ -5,12 +5,11 @@ import { checkAuthentication } from '../../store/user-process/selectors';
 
 type PrivateRouteProps = {
   children: JSX.Element;
-}
+};
 
-function PrivateRoute({children}: PrivateRouteProps): JSX.Element {
+function PrivateRoute({ children }: PrivateRouteProps): JSX.Element {
   const isAuth = useAppSelector(checkAuthentication);
-  return ((isAuth) ? children : <Navigate to={AppRoute.Login} />);
+  return isAuth ? children : <Navigate to={AppRoute.Login} />;
 }
-
 
 export default PrivateRoute;

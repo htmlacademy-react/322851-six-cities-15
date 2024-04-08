@@ -23,14 +23,16 @@ function Favorites(): JSX.Element {
               <h1 className="visually-hidden">Favorites (empty)</h1>
               <div className="favorites__status-wrapper">
                 <b className="favorites__status">Nothing yet saved.</b>
-                <p className="favorites__status-description">Save properties to narrow down search or plan your future trips.</p>
+                <p className="favorites__status-description">
+                  Save properties to narrow down search or plan your future
+                  trips.
+                </p>
               </div>
             </section>
           </div>
         </main>
         <Footer />
       </React.Fragment>
-
     );
   }
 
@@ -44,9 +46,11 @@ function Favorites(): JSX.Element {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {
-                favoriteOffers && CITIES.map((city) => {
-                  const cityOffers = favoriteOffers.filter((offer) => offer.city.name === city);
+              {favoriteOffers &&
+                CITIES.map((city) => {
+                  const cityOffers = favoriteOffers.filter(
+                    (offer) => offer.city.name === city,
+                  );
                   if (cityOffers.length > 0) {
                     return (
                       <li className="favorites__locations-items" key={city}>
@@ -58,14 +62,15 @@ function Favorites(): JSX.Element {
                           </div>
                         </div>
                         <div className="favorites__places">
-                          <OffersList offers={cityOffers} classNamePrefix={PlaceCardClassNamePrefix.Favorites} />
+                          <OffersList
+                            offers={cityOffers}
+                            classNamePrefix={PlaceCardClassNamePrefix.Favorites}
+                          />
                         </div>
                       </li>
                     );
                   }
-
-                })
-              }
+                })}
             </ul>
           </section>
         </div>

@@ -6,7 +6,7 @@ export type UserData = {
   isPro: boolean;
   email: string;
   token: Token;
-}
+};
 
 export type AuthData = {
   email: string;
@@ -16,5 +16,4 @@ export type AuthData = {
 export type DetailMessageType = {
   type: string;
   message: string;
-}
-
+};

@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react';
+import { memo, useCallback } from 'react';
 import { PlaceCardImageSize, PlaceCardClassNamePrefix } from '../../consts';
 import { Offer, Offers } from '../../types/offers';
 import PlaceCard from '../place-card/place-card';
@@ -7,16 +7,26 @@ type OffersListProps = {
   offers: Offers;
   classNamePrefix: PlaceCardClassNamePrefix;
   onActiveCardChange?: (id: string | null) => void;
-}
+};
 
-function OffersListTemplate({offers, classNamePrefix, onActiveCardChange }: OffersListProps): JSX.Element {
-  const imageSize = (classNamePrefix === PlaceCardClassNamePrefix.Favorites) ? PlaceCardImageSize.SMALL : PlaceCardImageSize.LARGE;
+function OffersListTemplate({
+  offers,
+  classNamePrefix,
+  onActiveCardChange,
+}: OffersListProps): JSX.Element {
+  const imageSize =
+    classNamePrefix === PlaceCardClassNamePrefix.Favorites
+      ? PlaceCardImageSize.SMALL
+      : PlaceCardImageSize.LARGE;
 
-  const handlePlaceCardMouseEnter = useCallback((id: string) => {
-    if (onActiveCardChange) {
-      onActiveCardChange(id);
-    }
-  }, [onActiveCardChange]);
+  const handlePlaceCardMouseEnter = useCallback(
+    (id: string) => {
+      if (onActiveCardChange) {
+        onActiveCardChange(id);
+      }
+    },
+    [onActiveCardChange],
+  );
 
   const handlePlaceCardMouseLeave = useCallback(() => {
     if (onActiveCardChange) {
@@ -24,20 +34,21 @@ function OffersListTemplate({offers, classNamePrefix, onActiveCardChange }: Offe
     }
   }, [onActiveCardChange]);
 
-
   return (
-    <React.Fragment>
-      {offers.map((offer: Offer): JSX.Element => (
-        <PlaceCard
-          key={offer.id}
-          offer={offer}
-          classNamePrefix={classNamePrefix}
-          imageSize={imageSize}
-          onMouseEnter={handlePlaceCardMouseEnter}
-          onMouseLeave={handlePlaceCardMouseLeave}
-        />))}
-    </React.Fragment>
-
+    <>
+      {offers.map(
+        (offer: Offer): JSX.Element => (
+          <PlaceCard
+            key={offer.id}
+            offer={offer}
+            classNamePrefix={classNamePrefix}
+            imageSize={imageSize}
+            onMouseEnter={handlePlaceCardMouseEnter}
+            onMouseLeave={handlePlaceCardMouseLeave}
+          />
+        ),
+      )}
+    </>
   );
 }
 
