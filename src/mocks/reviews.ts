@@ -16,7 +16,7 @@ const reviews: Reviews = [
   {
     id: '3b4c32ff-0be1-4edf-9cfb-e1a90a30c8a3',
     comment:
-      "Home is amazing. It's like staying in a museum. The rooms, furnishings and artworks are incredible. The views of My Vesuvius",
+      'Home is amazing. It\'s like staying in a museum. The rooms, furnishings and artworks are incredible. The views of My Vesuvius',
     date: '2024-02-10T21:00:00.030Z',
     rating: 3,
     user: {
