@@ -2,18 +2,18 @@ export type OfferLocation = {
   latitude: number;
   longitude: number;
   zoom: number;
-}
+};
 
 export type Host = {
   name: string;
   avatarUrl: string;
   isPro: boolean;
-}
+};
 
 export type City = {
   name: string;
   location: OfferLocation;
-}
+};
 
 export type Offer = {
   id: string;
@@ -26,7 +26,7 @@ export type Offer = {
   isFavorite: boolean;
   isPremium: boolean;
   rating: number;
-}
+};
 
 export type DetailedOffer = Omit<Offer, 'previewImage'> & {
   description: string;
@@ -35,9 +35,8 @@ export type DetailedOffer = Omit<Offer, 'previewImage'> & {
   host: Host;
   images: string[];
   maxAdults: number;
-  }
+};
 
 export type DetailedOffers = DetailedOffer[];
 
 export type Offers = Offer[];
-

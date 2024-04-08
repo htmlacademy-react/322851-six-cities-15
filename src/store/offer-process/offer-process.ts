@@ -1,15 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { NameSpace, Setting } from '../../consts';
-import { toggleFavoriteStatus, uploadNearbyOffers, uploadNewReview, uploadOfferById, uploadReviews } from '../thunk-actions';
+import {
+  uploadNearbyOffers,
+  uploadNewReview,
+  uploadOfferById,
+  uploadReviews,
+} from './thunk-actions';
 import { OfferProcess } from '../../types/state';
 import { getRandomSubArray } from '../../utils';
+import { toggleFavoriteStatus } from '../main-process/thunk-actions';
 
 const initialState: OfferProcess = {
   nearbyOffers: null,
   currentOffer: null,
-  reviews: null
+  reviews: null,
 };
-
 
 const offerProcess = createSlice({
   name: NameSpace.OFFER,
@@ -23,7 +28,10 @@ const offerProcess = createSlice({
         }
       })
       .addCase(uploadNearbyOffers.fulfilled, (state, action) => {
-        state.nearbyOffers = getRandomSubArray(action.payload, Setting.NearbyOffersCount);
+        state.nearbyOffers = getRandomSubArray(
+          action.payload,
+          Setting.NearbyOffersCount,
+        );
       })
       .addCase(uploadReviews.fulfilled, (state, action) => {
         state.reviews = action.payload;
@@ -39,12 +47,21 @@ const offerProcess = createSlice({
       })
       .addCase(toggleFavoriteStatus.fulfilled, (state, action) => {
         if (state.currentOffer?.id === action.payload.id) {
-          state.currentOffer = {...state.currentOffer, isFavorite: action.payload.isFavorite};
+          state.currentOffer = {
+            ...state.currentOffer,
+            isFavorite: action.payload.isFavorite,
+          };
         }
         if (state.nearbyOffers) {
-          const index = state.nearbyOffers.findIndex((offer) => offer.id === action.payload.id);
+          const index = state.nearbyOffers.findIndex(
+            (offer) => offer.id === action.payload.id,
+          );
           if (index > -1) {
-            state.nearbyOffers = [...state.nearbyOffers.slice(0, index), action.payload, ...state.nearbyOffers.slice(index + 1)];
+            state.nearbyOffers = [
+              ...state.nearbyOffers.slice(0, index),
+              action.payload,
+              ...state.nearbyOffers.slice(index + 1),
+            ];
           }
         }
       });

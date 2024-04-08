@@ -1,19 +1,25 @@
 import { NameSpace, SortBy } from '../../consts';
 import offers from '../../mocks/offers';
-import { getCurrentCity, getErrorStatus, getFavoriteOffers, getInitialOffers, getLoadingStatus, getSortBy } from './selectors';
+import {
+  getCurrentCity,
+  getErrorStatus,
+  getFavoriteOffers,
+  getInitialOffers,
+  getLoadingStatus,
+  getSortBy,
+} from './selectors';
 
 describe('Main-process selectors', () => {
   const state = {
-    [NameSpace.OFFERS] : {
+    [NameSpace.OFFERS]: {
       city: 'Paris',
       initialOffers: offers,
       offers: offers,
       sortBy: SortBy.Popular,
       isLoading: false,
       errorStatus: false,
-      favoriteOffers: offers
-    }
-
+      favoriteOffers: offers,
+    },
   };
 
   it('Should return SorBy from the State', () => {
@@ -22,7 +28,6 @@ describe('Main-process selectors', () => {
     const result = getSortBy(state);
 
     expect(result).toBe(sortBy);
-
   });
 
   it('Should return initialOffers from the State', () => {
@@ -31,7 +36,6 @@ describe('Main-process selectors', () => {
     const result = getInitialOffers(state);
 
     expect(result).toEqual(initialOffers);
-
   });
 
   it('Should return offers from the State', () => {
@@ -40,9 +44,7 @@ describe('Main-process selectors', () => {
     const result = getInitialOffers(state);
 
     expect(result).toEqual(filteredOffers);
-
   });
-
 
   it('Should return loadingStatus from the State', () => {
     const { isLoading } = state[NameSpace.OFFERS];
@@ -50,7 +52,6 @@ describe('Main-process selectors', () => {
     const result = getLoadingStatus(state);
 
     expect(result).toBe(isLoading);
-
   });
 
   it('Should return loadingStatus from the State', () => {
@@ -59,7 +60,6 @@ describe('Main-process selectors', () => {
     const result = getCurrentCity(state);
 
     expect(result).toBe(city);
-
   });
 
   it('Should return errorStatus from the State', () => {
@@ -68,7 +68,6 @@ describe('Main-process selectors', () => {
     const result = getErrorStatus(state);
 
     expect(result).toBe(errorStatus);
-
   });
 
   it('Should return loadingStatus from the State', () => {
@@ -77,6 +76,5 @@ describe('Main-process selectors', () => {
     const result = getFavoriteOffers(state);
 
     expect(result).toEqual(favoriteOffers);
-
   });
 });

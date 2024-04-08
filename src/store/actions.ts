@@ -3,6 +3,4 @@ import { AppRoute } from '../consts';
 
 const redirectToRoute = createAction<AppRoute>('redirectToRoute');
 
-export {
-  redirectToRoute
-};
+export { redirectToRoute };

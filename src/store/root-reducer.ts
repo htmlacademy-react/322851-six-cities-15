@@ -4,11 +4,10 @@ import { mainProcess } from './main-process/main-process';
 import { offerProcess } from './offer-process/offer-process';
 import { userProcess } from './user-process/user-process';
 
-
-const roootReducer = combineReducers({
+const rootReducer = combineReducers({
   [NameSpace.OFFERS]: mainProcess.reducer,
   [NameSpace.OFFER]: offerProcess.reducer,
   [NameSpace.USER]: userProcess.reducer,
 });
 
-export { roootReducer };
+export { rootReducer };

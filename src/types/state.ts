@@ -9,7 +9,7 @@ import { UserData } from './auth';
 
 export type MainProcess = {
   city: string;
-  initialOffers: null| Offers;
+  initialOffers: null | Offers;
   sortBy: SortBy;
   isLoading: boolean;
   errorStatus: boolean;
@@ -20,13 +20,17 @@ export type OfferProcess = {
   currentOffer: null | DetailedOffer;
   nearbyOffers: null | Offers;
   reviews: null | Reviews;
-}
+};
 
 export type UserProcess = {
   authorizationStatus: AuthorizationStatus;
   user: UserData | null;
-}
+};
 
 export type State = ReturnType<typeof store.getState>;
 export type Dispatch = typeof store.dispatch;
-export type AppThunkDispatch = ThunkDispatch<State, ReturnType<typeof createAPI>, Action>;
+export type AppThunkDispatch = ThunkDispatch<
+  State,
+  ReturnType<typeof createAPI>,
+  Action
+>;

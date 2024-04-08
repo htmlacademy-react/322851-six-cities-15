@@ -17,10 +17,15 @@ function Main(): JSX.Element {
 
   const currentCity = useAppSelector(getCurrentCity);
 
-  const activeCardChangeHandler = useCallback((id: string | null) => setActiveCard(id), []);
+  const activeCardChangeHandler = useCallback(
+    (id: string | null) => setActiveCard(id),
+    [],
+  );
 
-  const points = (offers) ? offers.map((offer) => offer.location) : null;
-  const selectedPoint = (activeCard) ? offers?.find((offer) => offer.id === activeCard)?.location : null;
+  const points = offers ? offers.map((offer) => offer.location) : null;
+  const selectedPoint = activeCard
+    ? offers?.find((offer) => offer.id === activeCard)?.location
+    : null;
 
   if (!offers) {
     return <Loader />;
@@ -36,25 +41,34 @@ function Main(): JSX.Element {
         <CitiesList />
       </div>
       {!offers.length && <EmptyCardsList city={currentCity} />}
-      {
-        offers.length &&
+      {offers.length && (
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} {(offers.length > 1) ? 'places' : 'place'} to stay in {currentCity}</b>
+              <b className="places__found">
+                {offers.length} {offers.length > 1 ? 'places' : 'place'} to stay
+                in {currentCity}
+              </b>
               <SortingForm />
               <div className="cities__places-list places__list tabs__content">
-                <OffersList offers={offers} classNamePrefix={PlaceCardClassNamePrefix.Main} onActiveCardChange={activeCardChangeHandler} />
+                <OffersList
+                  offers={offers}
+                  classNamePrefix={PlaceCardClassNamePrefix.Main}
+                  onActiveCardChange={activeCardChangeHandler}
+                />
               </div>
             </section>
             <div className="cities__right-section">
-              <Map cityLocation={offers[0].city.location} points={points} selectedPoint={selectedPoint} />
+              <Map
+                cityLocation={offers[0].city.location}
+                points={points}
+                selectedPoint={selectedPoint}
+              />
             </div>
           </div>
-
         </div>
-      }
+      )}
     </main>
   );
 }

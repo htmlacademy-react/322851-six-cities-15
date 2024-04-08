@@ -9,8 +9,8 @@ describe('Offer-process selectors', () => {
     [NameSpace.OFFER]: {
       nearbyOffers: offers,
       currentOffer: detailedOffers[0],
-      reviews: reviews
-    }
+      reviews: reviews,
+    },
   };
 
   it('Should return nearbyOffers from the state', () => {
@@ -36,5 +36,4 @@ describe('Offer-process selectors', () => {
 
     expect(result).toEqual(reviewsList);
   });
-
 });
